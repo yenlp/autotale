@@ -8,7 +8,6 @@ import app_state
 import screen_utils
 
 def update(img):
-    screen_utils.update('AutoBot')
     pos_mouse = pyautogui.position()
     if not screen_utils.containPoint(pos_mouse):
         app_state.isPause = True
@@ -26,6 +25,7 @@ def loop():
     last_ts = time.time()
     while app_state.isAlive:
         if not app_state.isPause:
+            screen_utils.update('AutoBot')
             x, y = screen_utils.screen_topleft
             w, h = screen_utils.screen_size
             img = pyautogui.screenshot(region=(x, y, w, h))
