@@ -63,7 +63,13 @@ def onBattle(img):
     if isSPLow:
         if not isSPEmpty:
             SP_recovery()
-    
+    if isHPEmpty:
+        HP_more()
+    if isMPEmpty:
+        MP_more()
+    if isSPEmpty:
+        SP_more()
+
     result = {
         BATTLE_STATE_FIND_ENEMY : findEnemy,
         BATTLE_STATE_COMBAT : combat
@@ -165,7 +171,32 @@ def HP_recovery():
 
 def MP_recovery():
     pressKey('3', 'MP_recovery')
-    
+
+def HP_more():
+    pos = screen_utils.slot_hp_more
+    do_key_more_potion(pos, '2')
+
+def SP_more():
+    pos = screen_utils.slot_sp_more
+    do_key_more_potion(pos, '1')
+
+def MP_more():
+    pos = screen_utils.slot_mp_more
+    do_key_more_potion(pos, '3')
+
+def do_key_more_potion(pos, key):
+    print('more Potion ' + key)    
+    if not isInventoryOpen:
+        pressKey('v', 'open equipment')
+    pyautogui.moveTo(pos[0], pos[1])
+    pyautogui.keyDown('shift')
+    pyautogui.keyDown(key)
+    time.sleep(0.1)
+    pyautogui.keyUp(key)
+    pyautogui.keyUp('shift')
+    time.sleep(0.1)
+    pressKey('v', 'close equipment')   
+
 def goHome():
     global isPause
     global state

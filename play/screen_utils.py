@@ -4,6 +4,7 @@ import time
 import pyautogui
 import pygetwindow as gw
 
+
 VM_WIDTH = 1024
 VM_HEIGHT = 705
 
@@ -64,7 +65,7 @@ def update(title):
     screen_size = VM_WIDTH, screen_size[1] - margin_top - margin_bot
     position_mid = VM_WIDTH / 2, VM_HEIGHT / 2
     position_sp = getPositionOnWindow(ui_defines.sp_bar_pos_low, ui_defines.sp_bar_pos_high, 0.1)
-    position_hp = getPositionOnWindow(ui_defines.hp_bar_pos_low, ui_defines.hp_bar_pos_high, 0.15)
+    position_hp = getPositionOnWindow(ui_defines.hp_bar_pos_low, ui_defines.hp_bar_pos_high, 0.25)
     position_mp = getPositionOnWindow(ui_defines.mp_bar_pos_low, ui_defines.mp_bar_pos_high, 0.1)
     slot_hp = ui_defines.slot2_pos
     slot_sp = ui_defines.slot1_pos
@@ -83,7 +84,7 @@ def init():
     global margin_top
     margin_top = 0
     margin_bot = 0
-    update('AutoBot')
+    update('192.168.126.128')
     x, y = screen_topleft
     w, h = screen_size
     p = pyautogui.screenshot('screenshot_init.png', region=(x, y, w, h))
@@ -99,7 +100,7 @@ def init():
             if abs(diff) > 5:
                 found = True
     margin_bot = screen_size[1] - margin_top - VM_HEIGHT
-    update('AutoBot')
+    update('192.168.126.128')
     time.sleep(1)
 
 def containPoint(point):

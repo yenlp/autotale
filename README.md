@@ -3,13 +3,14 @@ Autotale is project to play priston tale automatically.
 
 Requirements:
     1. Virtual machine:
-        Install virtual machine run windows 10. Named VM as AutoBot
+        Install virtual machine run windows 10. Named VM as 192.168.126.128
         Install Priston Tale on that VM.
     2. Environment:
         python3: https://www.python.org/downloads/
         pyautogui: https://pypi.org/project/PyAutoGUI/
         keyboard: https://pypi.org/project/keyboard/
         pygetwindow: https://pypi.org/project/PyGetWindow/
+        pip install Pillow
 
 How to play:
     1. Remote desktop tp VM, set display 1024x 768

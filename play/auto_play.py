@@ -25,7 +25,7 @@ def loop():
     last_ts = time.time()
     while app_state.isAlive:
         if not app_state.isPause:
-            screen_utils.update('AutoBot')
+            screen_utils.update('192.168.126.128')
             x, y = screen_utils.screen_topleft
             w, h = screen_utils.screen_size
             img = pyautogui.screenshot(region=(x, y, w, h))
