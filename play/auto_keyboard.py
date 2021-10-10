@@ -3,7 +3,7 @@ import pyautogui
 from pyscreeze import USE_IMAGE_NOT_FOUND_EXCEPTION
 import app_state
 import ui_defines
-from screen_utils import getPositionOnScreen
+import screen_utils
 
 def init():
     keyboard.add_hotkey('ctrl+s', take_screenshot, args=())
@@ -35,21 +35,23 @@ def quit():
     app_state.isAlive = False
 
 def take_screenshot():
-    pyautogui.screenshot('screen_capture.png')
+    x, y = screen_utils.screen_topleft
+    w, h = screen_utils.screen_size
+    img = pyautogui.screenshot('screenshot.png', region=(x, y, w, h))
 
 def gotoHPBar():
     app_state.isPause = True
-    pos = getPositionOnScreen(ui_defines.hp_bar_pos_low)
+    pos = screen_utils.getPositionOnScreen(ui_defines.hp_bar_pos_low)
     pyautogui.moveTo(pos[0], pos[1], 0.2)
 
 def gotoSPBar():
     app_state.isPause = True
-    pos = getPositionOnScreen(ui_defines.sp_bar_pos_low)
+    pos = screen_utils.getPositionOnScreen(ui_defines.sp_bar_pos_low)
     pyautogui.moveTo(pos[0], pos[1], 0.2)
 
 def gotoMPBar():
     app_state.isPause = True
-    pos = getPositionOnScreen(ui_defines.mp_bar_pos_low)
+    pos = screen_utils.getPositionOnScreen(ui_defines.mp_bar_pos_low)
     pyautogui.moveTo(pos[0], pos[1], 0.2)
 
 def update(img):
