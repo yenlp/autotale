@@ -84,7 +84,7 @@ def init():
     global margin_top
     margin_top = 0
     margin_bot = 0
-    update('192.168.126.128')
+    update('AutoBot')
     x, y = screen_topleft
     w, h = screen_size
     p = pyautogui.screenshot('screenshot_init.png', region=(x, y, w, h))
@@ -100,7 +100,7 @@ def init():
             if abs(diff) > 5:
                 found = True
     margin_bot = screen_size[1] - margin_top - VM_HEIGHT
-    update('192.168.126.128')
+    update('AutoBot')
     time.sleep(1)
 
 def containPoint(point):

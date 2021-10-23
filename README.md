@@ -3,7 +3,7 @@ Autotale is project to play priston tale automatically.
 
 Requirements:
     1. Virtual machine:
-        Install virtual machine run windows 10. Named VM as 192.168.126.128
+        Install virtual machine run windows 10. Named VM as AutoBot
         Install Priston Tale on that VM.
     2. Environment:
         python3: https://www.python.org/downloads/
