@@ -1,31 +1,31 @@
 import constant
 
 #Cot SP
-sp_bar_pos_low = 417, 695
-sp_bar_pos_high = 417, 625
-sp_bar_color = constant.GREEN, 200, 255 # mau xanh tu 200-255
+sp_bar_pos_low = 420, 695
+sp_bar_pos_high = 420, 625
+sp_bar_color = constant.GREEN, 200, constant.BLUE, 50
 
 #Cot HP
-hp_bar_pos_low = 435, 695
-hp_bar_pos_high = 435, 610
-hp_bar_color = constant.RED, 200, 255
+hp_bar_pos_low = 441, 695
+hp_bar_pos_high = 441, 610
+hp_bar_color = constant.RED, 200, constant.BLUE, 50
 
 #Cot MP
-mp_bar_pos_low = 582, 695
-mp_bar_pos_high = 582, 610
-mp_bar_color = constant.BLUE, 200, 255
+mp_bar_pos_low = 588, 695
+mp_bar_pos_high = 588, 610
+mp_bar_color = constant.BLUE, 200, constant.GREEN, 50
 
 #Slot 1
 slot1_pos = 620, 688
-slot1_color = constant.GREEN, 100, 255
+slot1_color = constant.GREEN, 30, 255
 
 #Slot 2
 slot2_pos = 645, 688
-slot2_color = constant.RED, 100, 255
+slot2_color = constant.RED, 30, 255
 
 #Slot 3
 slot3_pos = 670, 688
-slot3_color = constant.BLUE, 100, 255
+slot3_color = constant.BLUE, 30, 255
 
 # core teleport to town
 v_core_pos = 170, 575

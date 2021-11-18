@@ -9,6 +9,7 @@ import attack_button
 
 isAlive=True
 isPause=True
+isAutoCombat=False
 
 STATE_NONE=0
 STATE_HOME=1
@@ -25,7 +26,9 @@ isInventoryOpen=False
 
 BATTLE_STATE_FIND_ENEMY = 0
 BATTLE_STATE_COMBAT = 1
+BATTLE_STATE_LOOT = 2
 battle_state = BATTLE_STATE_FIND_ENEMY
+loot_state = 0
 
 def update(img):
     result = {
@@ -51,7 +54,12 @@ def onHome(img):
     if isSPEmpty:
         print('SP is empty')
 
+time_battle = 0.0
+
 def onBattle(img):
+    global battle_state
+    global time_battle
+    global loot_state
     if isHPLow:
         if isHPEmpty:
             goHome()
@@ -70,14 +78,28 @@ def onBattle(img):
     if isSPEmpty:
         SP_more()
 
-    result = {
-        BATTLE_STATE_FIND_ENEMY : findEnemy,
-        BATTLE_STATE_COMBAT : combat
-    }.get(battle_state, doNothing)(img)
+    if isAutoCombat:
+        if battle_state == BATTLE_STATE_LOOT:
+            if time.time() - time_battle > 10:
+                time_battle = time.time()
+                battle_state = BATTLE_STATE_FIND_ENEMY
+                loot_state = 0
+                pressKey('a', 'stop loot')
+        else:
+            if time.time() - time_battle > 200:
+                time_battle = time.time()
+                battle_state = BATTLE_STATE_LOOT
+                loot_state = 0
+        result = {
+            BATTLE_STATE_FIND_ENEMY : findEnemy,
+            BATTLE_STATE_COMBAT : combat,
+            BATTLE_STATE_LOOT: loot
+        }.get(battle_state, doNothing)(img)
 
 last_attack_ts = time.time()
 findEnemyState = 0
 last_color_enemy = 0,0,0
+combat_r_default = 200
 combat_r = 0
 combat_angle = 0
 combat_find_time = 0.0
@@ -90,16 +112,18 @@ def findEnemy(img):
     global combat_r
     global combat_find_time
     if findEnemyState == 0:
-        r = 100
-        x = screen_utils.position_mid[0] + random.randrange(-r, r, 50)
-        y = screen_utils.position_mid[1] + random.randrange(-r, r, 50)
+        r = 50
+        x = screen_utils.position_mid[0] + random.randrange(-r, r, 1)
+        y = screen_utils.position_mid[1] + random.randrange(-r, r, 1)
         pos = x, y
         pos_mouse = screen_utils.getPositionOnScreen(pos)
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1])
+        pyautogui.keyDown('shift')
+        time.sleep(0.3)   
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-        pyautogui.mouseDown()
-        pyautogui.mouseUp()
+        time.sleep(0.3)   
+        pyautogui.keyUp('shift')
         findEnemyState = 1
         time.sleep(0.3)
     elif findEnemyState == 1:
@@ -107,14 +131,18 @@ def findEnemy(img):
         if found:
             battle_state = BATTLE_STATE_COMBAT
             last_attack_ts = time.time()
-            combat_r = 50
+            combat_r = combat_r_default
             combat_find_time = 0.0
             findEnemyState = 0
+            r = combat_r_default
+            x = screen_utils.position_mid[0] + random.randrange(-r, r, 1)
+            y = screen_utils.position_mid[1] + random.randrange(-r, r, 1)
+            pos = x, y
+            pos_mouse = screen_utils.getPositionOnScreen(pos)
+            pyautogui.moveTo(pos_mouse[0], pos_mouse[1])
             print('enemy found - Combat')
             return
         findEnemyState = 0
-        pyautogui.mouseDown()
-        pyautogui.mouseUp()
         time.sleep(0.3)           
 
 def combat(img):
@@ -123,26 +151,50 @@ def combat(img):
     global combat_r
     global combat_angle
     global combat_find_time
-    combat_angle = combat_angle + 1.0
-    x = screen_utils.position_mid[0] + combat_r * math.sin(combat_angle)
-    y = screen_utils.position_mid[1] + combat_r * math.cos(combat_angle)
-    pos = x, y
-    pos_mouse = screen_utils.getPositionOnScreen(pos)
-    pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.1)
     found = attack_button.isOnEnemy(img)
     t = time.time()
     if found:
         last_attack_ts = t
-        combat_r = 50
+        combat_r = combat_r_default
     else:
+        combat_angle = combat_angle + 2.0
+        x = screen_utils.position_mid[0] + combat_r * math.sin(combat_angle)
+        y = screen_utils.position_mid[1] + combat_r * math.cos(combat_angle) * 0.6
+        pos = x, y
+        pos_mouse = screen_utils.getPositionOnScreen(pos)
+        pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.1)
         if t - last_attack_ts > 0.5:
-            if combat_r > 300:
-                combat_r = 50
+            if combat_r > 400:
+                combat_r = combat_r_default
                 battle_state = BATTLE_STATE_FIND_ENEMY
                 print('findEnemy')
             else:
-                combat_r = combat_r + 40
-                last_attack_ts = t
+                combat_r = combat_r + 10
+                last_attack_ts = t    
+def loot(img):
+    global loot_state
+    if loot_state == 0:
+        pyautogui.PAUSE = 0.0
+        pyautogui.keyDown('a')
+        #time.sleep(0.05)
+        pyautogui.keyUp('a')
+        time.sleep(0.05)
+        pyautogui.keyDown('a')
+        #time.sleep(0.05)
+        pyautogui.keyUp('a')
+        time.sleep(0.05)
+        print('loot')
+        pyautogui.PAUSE = 0.1
+        loot_state = 1
+    else:
+        r = 10
+        x = screen_utils.position_mid[0] + random.randrange(-r, r, 1)
+        y = screen_utils.position_mid[1] + random.randrange(-r, r, 1)
+        pos = x, y
+        pos_mouse = screen_utils.getPositionOnScreen(pos)
+        pyautogui.moveTo(pos_mouse[0], pos_mouse[1])
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
 
 def battleMode():
     global state
