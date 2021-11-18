@@ -18,21 +18,27 @@ def process(img):
 
 def check_SP(img):
     pix = img.getpixel(screen_utils.position_sp)
-    idx = ui_defines.sp_bar_color[0]
-    color = ui_defines.sp_bar_color[1]
-    return pix[idx] < color
+    idx1 = ui_defines.sp_bar_color[0]
+    color1 = ui_defines.sp_bar_color[1]
+    idx2 = ui_defines.sp_bar_color[2]
+    color2 = ui_defines.sp_bar_color[3]
+    return pix[idx1] < color1 and pix[idx2] > color2
 
 def check_HP(img):
     pix = img.getpixel(screen_utils.position_hp)
-    idx = ui_defines.hp_bar_color[0]
-    color = ui_defines.hp_bar_color[1]
-    return pix[idx] < color
+    idx1 = ui_defines.hp_bar_color[0]
+    color1 = ui_defines.hp_bar_color[1]
+    idx2 = ui_defines.hp_bar_color[2]
+    color2 = ui_defines.hp_bar_color[3]
+    return pix[idx1] < color1 and pix[idx2] > color2
 
 def check_MP(img):
     pix = img.getpixel(screen_utils.position_mp)
-    idx = ui_defines.mp_bar_color[0]
-    color = ui_defines.mp_bar_color[1]
-    return pix[idx] < color
+    idx1 = ui_defines.mp_bar_color[0]
+    color1 = ui_defines.mp_bar_color[1]
+    idx2 = ui_defines.mp_bar_color[2]
+    color2 = ui_defines.mp_bar_color[3]
+    return pix[idx1] < color1 and pix[idx2] > color2
 
 def isSPEmpty(img):
     pix = img.getpixel(screen_utils.slot_sp)

@@ -15,6 +15,7 @@ def init():
     keyboard.add_hotkey('ctrl+j', gotoSPBar, args=())
     keyboard.add_hotkey('ctrl+k', gotoHPBar, args=())
     keyboard.add_hotkey('ctrl+l', gotoMPBar, args=())
+    keyboard.add_hotkey('ctrl+t', switchAutoCombat, args=())
 
 def pause():
     app_state.isPause = True
@@ -53,6 +54,13 @@ def gotoMPBar():
     app_state.isPause = True
     pos = screen_utils.getPositionOnScreen(ui_defines.mp_bar_pos_low)
     pyautogui.moveTo(pos[0], pos[1], 0.2)
+
+def switchAutoCombat():
+    if app_state.isAutoCombat:
+        app_state.isAutoCombat = False
+    else:
+        app_state.isAutoCombat = True
+    app_state.battle_state = app_state.BATTLE_STATE_FIND_ENEMY
 
 def update(img):
     if not app_state.isAlive:
