@@ -242,7 +242,8 @@ def MP_more():
     do_key_more_potion(pos, '3')
 
 def do_key_more_potion(pos, key):
-    print('more Potion ' + key)    
+    print('more Potion ' + key)   
+    mouse_pos = pyautogui.position() 
     if not isInventoryOpen:
         pressKey('v', 'open equipment')
     pyautogui.moveTo(pos[0], pos[1])
@@ -253,6 +254,7 @@ def do_key_more_potion(pos, key):
     pyautogui.keyUp('shift')
     time.sleep(0.1)
     pressKey('v', 'close equipment')   
+    pyautogui.moveTo(mouse_pos, 0.1)
 
 def goHome():
     global isPause
