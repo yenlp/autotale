@@ -63,7 +63,7 @@ def update(title):
     x_mid = screen_topleft[0] + screen_size[0] / 2
     screen_topleft = x_mid - VM_WIDTH / 2, screen_topleft[1] + margin_top
     screen_size = VM_WIDTH, screen_size[1] - margin_top - margin_bot
-    position_mid = VM_WIDTH / 2, VM_HEIGHT / 2
+    position_mid = VM_WIDTH / 2, VM_HEIGHT / 2 + 1
     position_sp = getPositionOnWindow(ui_defines.sp_bar_pos_low, ui_defines.sp_bar_pos_high, 0.2)
     position_hp = getPositionOnWindow(ui_defines.hp_bar_pos_low, ui_defines.hp_bar_pos_high, 0.5)
     position_mp = getPositionOnWindow(ui_defines.mp_bar_pos_low, ui_defines.mp_bar_pos_high, 0.1)

@@ -20,7 +20,7 @@ def update(img):
     app_state.update(img)
 
 def loop():
-    FPS = 30
+    FPS = 10
     FRAME_RATE = 1.0 / FPS
     last_ts = time.time()
     while app_state.isAlive:
