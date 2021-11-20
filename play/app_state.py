@@ -230,6 +230,7 @@ def MP_recovery():
     pressKey('3', 'MP_recovery')
 
 def HP_more():
+    print('more')
     pos = screen_utils.slot_hp_more
     do_key_more_potion(pos, '2')
 
@@ -253,8 +254,8 @@ def do_key_more_potion(pos, key):
     pyautogui.keyUp(key)
     pyautogui.keyUp('shift')
     time.sleep(0.1)
-    pressKey('v', 'close equipment')   
-    pyautogui.moveTo(mouse_pos, 0.1)
+    pressKey('v', 'close equipment')
+    pyautogui.moveTo(mouse_pos[0], mouse_pos[1], 0.1)
 
 def goHome():
     global isPause
