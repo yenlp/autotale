@@ -10,6 +10,7 @@ import attack_button
 isAlive=True
 isPause=True
 isAutoCombat=False
+isAutoLoot=False
 isAutoRotate=False
 
 STATE_NONE=0
@@ -81,15 +82,15 @@ def onBattle(img):
         SP_more()
 
     if isAutoCombat:
+        current_time = time.time()
         if battle_state == BATTLE_STATE_LOOT:
-            if time.time() - time_battle > 10:
-                time_battle = time.time()
+            if current_time - time_battle > 10:
+                time_battle = current_time
                 battle_state = BATTLE_STATE_FIND_ENEMY
                 loot_state = 0
                 pressKey('a', 'stop loot')
-        else:
-            if time.time() - time_battle > 200:
-                time_battle = time.time()
+        elif isAutoLoot and current_time - time_battle > 200:
+                time_battle = current_time
                 battle_state = BATTLE_STATE_LOOT
                 loot_state = 0
         result = {

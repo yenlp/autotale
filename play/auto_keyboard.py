@@ -17,6 +17,7 @@ def init():
     keyboard.add_hotkey('ctrl+l', gotoMPBar, args=())
     keyboard.add_hotkey('ctrl+t', switchAutoCombat, args=())
     keyboard.add_hotkey('ctrl+]', autoRotate, args=())
+    keyboard.add_hotkey('ctrl+[', autoLoot, args=())
 
 def pause():
     app_state.isPause = True
@@ -26,6 +27,9 @@ def pause():
 def battle():
     app_state.isPause = False
     print('Start battle')
+    print('AutoCombat is ' + str(app_state.isAutoCombat))
+    print('AutoLoot is ' + str(app_state.isAutoLoot))
+    print('AutoRotate is ' + str(app_state.isAutoRotate))
     app_state.battleMode()
 
 def home():
@@ -57,12 +61,13 @@ def gotoMPBar():
     pyautogui.moveTo(pos[0], pos[1], 0.2)
 
 def switchAutoCombat():
-    if app_state.isAutoCombat:
-        app_state.isAutoCombat = False
-    else:
-        app_state.isAutoCombat = True
+    app_state.isAutoCombat = not app_state.isAutoCombat
+    print('AutoCombat is ' + str(app_state.isAutoCombat))
     app_state.battle_state = app_state.BATTLE_STATE_FIND_ENEMY
 
+def autoLoot():
+    app_state.isAutoLoot = not app_state.isAutoLoot
+    print('AutoLoot is ' + str(app_state.isAutoLoot))
 
 def autoRotate():
     app_state.isAutoRotate = not app_state.isAutoRotate
