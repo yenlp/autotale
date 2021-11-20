@@ -10,6 +10,7 @@ import attack_button
 isAlive=True
 isPause=True
 isAutoCombat=False
+isAutoRotate=False
 
 STATE_NONE=0
 STATE_HOME=1
@@ -65,6 +66,7 @@ def onBattle(img):
             goHome()
         else:
             HP_recovery()
+        time.sleep(0.1)
     if isMPLow:
         if not isMPEmpty:
             MP_recovery()
@@ -95,6 +97,10 @@ def onBattle(img):
             BATTLE_STATE_COMBAT : combat,
             BATTLE_STATE_LOOT: loot
         }.get(battle_state, doNothing)(img)
+        if isAutoRotate:
+            key = 'right'
+            pyautogui.keyDown(key)
+            pyautogui.keyUp(key)
 
 last_attack_ts = time.time()
 findEnemyState = 0

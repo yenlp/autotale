@@ -65,9 +65,8 @@ def switchAutoCombat():
 
 
 def autoRotate():
-    global isAutoRotate
-    key = 'right'
-    pyautogui.keyDown(key)
+    app_state.isAutoRotate = not app_state.isAutoRotate
+    print('AutoRotate is ' + app_state.isAutoRotate)
 
 def update(img):
     if not app_state.isAlive:
