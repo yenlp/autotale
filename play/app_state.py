@@ -58,38 +58,59 @@ def onHome(img):
 
 time_battle = 0.0
 
+pot_sp = 0
+pot_hp = 0
+pot_mp = 0
+
 def onBattle(img):
     global battle_state
     global time_battle
     global loot_state
-    if isHPLow:
+    global pot_sp
+    global pot_hp
+    global pot_mp
+    if isHPLow or pot_hp > 0:
         if isHPEmpty:
             goHome()
         else:
+            if pot_hp > 0:
+                pot_hp = pot_hp - 1
             HP_recovery()
-        time.sleep(0.1)
-    if isMPLow:
-        if not isMPEmpty:
-            MP_recovery()
-    if isSPLow:
-        if not isSPEmpty:
-            SP_recovery()
+        return
+    else:
+        if isMPLow or pot_mp > 0:
+            if not isMPEmpty:
+                if pot_mp > 0:
+                    pot_mp = pot_mp - 1
+                MP_recovery()
+        if isSPLow or pot_sp > 0:
+            if not isSPEmpty:
+                if pot_sp > 0:
+                    pot_sp = pot_sp - 1
+                SP_recovery()
+    pot_remove = 20
     if isHPEmpty:
         HP_more()
+        pot_sp = pot_sp + pot_remove
+        pot_mp = pot_mp + pot_remove
     if isMPEmpty:
         MP_more()
+        pot_sp = pot_sp + pot_remove
+        pot_hp = pot_hp + pot_remove
     if isSPEmpty:
         SP_more()
+        pot_hp = pot_hp + pot_remove
+        pot_mp = pot_mp + pot_remove
 
     if isAutoCombat:
         current_time = time.time()
         if battle_state == BATTLE_STATE_LOOT:
-            if current_time - time_battle > 10:
+            if current_time - time_battle > 7:
                 time_battle = current_time
                 battle_state = BATTLE_STATE_FIND_ENEMY
                 loot_state = 0
                 pressKey('a', 'stop loot')
-        elif isAutoLoot and current_time - time_battle > 100:
+        elif isAutoLoot and current_time - time_battle > 90:
                 time_battle = current_time
                 battle_state = BATTLE_STATE_LOOT
                 loot_state = 0
@@ -160,8 +181,8 @@ def combat(img):
     global combat_find_time
     found = attack_button.isOnEnemy(img)
     t = time.time()
-    combat_angle = combat_angle + 5
-    combat_r = combat_r_default + (combat_r + 10) % 200
+    combat_angle = combat_angle + 1
+    combat_r = combat_r_default + (combat_r + 10) % 100
     x = screen_utils.position_mid[0] + combat_r * math.sin(combat_angle)
     y = screen_utils.position_mid[1] + combat_r * math.cos(combat_angle) * 0.6
     pos = x, y
@@ -191,7 +212,7 @@ def loot(img):
         pyautogui.PAUSE = 0.1
         loot_state = 1
     else:
-        r = 40
+        r = 35
         combat_angle = combat_angle + 20
         x = screen_utils.position_mid[0] + r * math.sin(combat_angle)
         y = screen_utils.position_mid[1] + r * math.cos(combat_angle) * 0.6
