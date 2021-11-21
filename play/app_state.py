@@ -89,7 +89,7 @@ def onBattle(img):
                 battle_state = BATTLE_STATE_FIND_ENEMY
                 loot_state = 0
                 pressKey('a', 'stop loot')
-        elif isAutoLoot and current_time - time_battle > 200:
+        elif isAutoLoot and current_time - time_battle > 100:
                 time_battle = current_time
                 battle_state = BATTLE_STATE_LOOT
                 loot_state = 0
@@ -160,24 +160,20 @@ def combat(img):
     global combat_find_time
     found = attack_button.isOnEnemy(img)
     t = time.time()
+    combat_angle = combat_angle + 5
+    combat_r = combat_r_default + (combat_r + 10) % 200
+    x = screen_utils.position_mid[0] + combat_r * math.sin(combat_angle)
+    y = screen_utils.position_mid[1] + combat_r * math.cos(combat_angle) * 0.6
+    pos = x, y
+    pos_mouse = screen_utils.getPositionOnScreen(pos)
+    pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.1)
     if found:
         last_attack_ts = t
-        combat_r = combat_r_default
     else:
-        combat_angle = combat_angle + 2
-        x = screen_utils.position_mid[0] + combat_r * math.sin(combat_angle)
-        y = screen_utils.position_mid[1] + combat_r * math.cos(combat_angle) * 0.6
-        pos = x, y
-        pos_mouse = screen_utils.getPositionOnScreen(pos)
-        pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.1)
-        if t - last_attack_ts > 0.5:
-            if combat_r > 400:
-                combat_r = combat_r_default
-                battle_state = BATTLE_STATE_FIND_ENEMY
-                print('findEnemy')
-            else:
-                combat_r = combat_r + 10
-                last_attack_ts = t    
+        if t - last_attack_ts > 5:
+            combat_r = combat_r_default
+            battle_state = BATTLE_STATE_FIND_ENEMY
+            print('findEnemy') 
 def loot(img):
     global loot_state
     global combat_angle
@@ -195,7 +191,7 @@ def loot(img):
         pyautogui.PAUSE = 0.1
         loot_state = 1
     else:
-        r = 20
+        r = 40
         combat_angle = combat_angle + 20
         x = screen_utils.position_mid[0] + r * math.sin(combat_angle)
         y = screen_utils.position_mid[1] + r * math.cos(combat_angle) * 0.6
@@ -204,7 +200,7 @@ def loot(img):
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1])
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-        time.sleep(0.1)
+        time.sleep(0.3)
 
 def battleMode():
     global state
