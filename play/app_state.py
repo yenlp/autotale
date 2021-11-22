@@ -61,6 +61,8 @@ time_battle = 0.0
 pot_sp = 0
 pot_hp = 0
 pot_mp = 0
+pot_count = 0
+pot_balance_count = 20
 
 def onBattle(img):
     global battle_state
@@ -69,38 +71,63 @@ def onBattle(img):
     global pot_sp
     global pot_hp
     global pot_mp
-    if isHPLow or pot_hp > 0:
+    global pot_count
+    if isHPLow:
+        pot_hp = 0
         if isHPEmpty:
-            goHome()
+            if pot_count < 2:
+                HP_more()
+                pot_count = pot_count + 1
+                if pot_sp != 0:
+                    pot_sp = pot_balance_count
+                if pot_mp != 0:
+                    pot_mp = pot_balance_count
+            else:
+                pot_count = 0
+                pot_hp = pot_sp = pot_mp = 0
+                goHome()
         else:
-            if pot_hp > 0:
-                pot_hp = pot_hp - 1
             HP_recovery()
+            pot_count = 0
         return
     else:
-        if isMPLow or pot_mp > 0:
+        if isMPLow:
+            pot_mp = 0
             if not isMPEmpty:
                 if pot_mp > 0:
                     pot_mp = pot_mp - 1
                 MP_recovery()
-        if isSPLow or pot_sp > 0:
+        if isSPLow:
+            pot_sp = 0
             if not isSPEmpty:
                 if pot_sp > 0:
                     pot_sp = pot_sp - 1
                 SP_recovery()
-    pot_remove = 20
-    if isHPEmpty:
-        HP_more()
-        pot_sp = pot_sp + pot_remove
-        pot_mp = pot_mp + pot_remove
+
+    if pot_hp > 0:
+        pot_hp = pot_hp - 1
+        HP_recovery()
+    
+    if pot_sp > 0:
+        pot_sp = pot_sp - 1
+        SP_recovery()
+
+    if pot_mp > 0:
+        pot_mp = pot_mp - 1
+        MP_recovery()
+
     if isMPEmpty:
         MP_more()
-        pot_sp = pot_sp + pot_remove
-        pot_hp = pot_hp + pot_remove
+        if pot_sp != 0:
+            pot_sp = pot_balance_count
+        if pot_hp != 0:
+            pot_hp = pot_balance_count
     if isSPEmpty:
         SP_more()
-        pot_hp = pot_hp + pot_remove
-        pot_mp = pot_mp + pot_remove
+        if pot_hp != 0:
+            pot_hp = pot_balance_count
+        if pot_mp != 0:
+            pot_mp = pot_balance_count
 
     if isAutoCombat:
         current_time = time.time()
@@ -110,7 +137,7 @@ def onBattle(img):
                 battle_state = BATTLE_STATE_FIND_ENEMY
                 loot_state = 0
                 pressKey('a', 'stop loot')
-        elif isAutoLoot and current_time - time_battle > 90:
+        elif isAutoLoot and current_time - time_battle > 80:
                 time_battle = current_time
                 battle_state = BATTLE_STATE_LOOT
                 loot_state = 0
