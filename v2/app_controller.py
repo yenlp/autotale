@@ -43,6 +43,7 @@ class AppController:
             frame_time = t - last_time
             if frame_time < FRAME_RATE:
                 time.sleep(FRAME_RATE - frame_time)
-            if frame_count > 1:
-                self.isAlive = False
+            if frame_count > 10:
+                pass
+                #self.isAlive = False
         print('Exit')

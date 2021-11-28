@@ -1,18 +1,27 @@
 
+
 class Color:
-    def __init__(self) -> None:
-        self.r = 0
-        self.g = 0
-        self.b = 0
+    def __init__(self, r, g, b):
+        self.r = r
+        self.g = g
+        self.b = b
 
     def setColor(self,r,g,b):
         self.r = r
         self.g = g
         self.b = b
 
+    def red(self):
+        return self.r
+
+    def green(self):
+        return self.g
+
+    def blue(self):
+        return self.b
+
     def BLACK():
-        color = Color()
-        color.setColor(0,0,0)
+        color = Color(0,0,0)
         return color
 
     def isEqual(self, other):
