@@ -36,7 +36,7 @@ class AppController:
         frame_count = 0
         while self.isAlive:
             frame_count = frame_count + 1
-            print('frame', frame_count)
+            #print('frame', frame_count)
             current_time = time.time()
             dt = current_time - last_time            
             if not self.isPause:
