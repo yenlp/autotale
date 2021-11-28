@@ -34,12 +34,12 @@ class Inventory:
         if not self.isInteractable:
             return
         self.isInteractable = False
-        self.time = 2
-        base.keyboard_helper.pressKey('v', 'open inventory')
+        self.time = 1
+        base.keyboard_helper.pressKey('v', 0.1, 'open inventory')
 
     def close(self):
         if not self.isInteractable:
             return
         self.isInteractable = False
         self.time = 2
-        base.keyboard_helper.pressKey('v', 'close inventory')
+        base.keyboard_helper.pressKey('v', 0.1, 'close inventory')

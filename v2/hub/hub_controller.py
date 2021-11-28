@@ -79,5 +79,6 @@ class HubController:
                     isRequired = True
                     self.inventory.open()
                     break
-        for potion in self.quickPotions:
-            potion.onFrameRender(screenshot)
+        if self.inventory.isOpen():
+            for potion in self.quickPotions:
+                potion.onFrameRender(screenshot)

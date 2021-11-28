@@ -10,4 +10,4 @@ class ActionGuiKey (ActionGui):
         self.key = key
 
     def doAction(self):
-        base.keyboard_helper.pressKey(self.key, 'ActionGuiKey::doAction')
+        base.keyboard_helper.pressKey(self.key, 0.1, 'ActionGuiKey::doAction')

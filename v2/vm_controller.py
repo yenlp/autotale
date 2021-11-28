@@ -2,6 +2,7 @@ from screen_utils import ScreenUtils
 import pygetwindow as gw
 import pyautogui
 from game_states.game_idle import GameIdle
+from game_states.game_battle import GameBattle
 
 VM_WIDTH = 1024
 VM_HEIGHT = 705
@@ -16,7 +17,7 @@ class VMController:
         self.marginTop = 0
         self.marginBot = 0
         self.screenUtils = ScreenUtils()
-        self.gameState = GameIdle()
+        self.gameState = GameBattle()
         self.gameState.setVM(self)
         self.img = self.detectWindow()
         self.activate()
@@ -63,4 +64,9 @@ class VMController:
     def convertGameToScreen(self, position):
         x = self.x + position[0]
         y = self.y + position[1]
+        return x, y
+
+    def getMiddleScreenPosition(self):
+        x = self.x + self.width / 2
+        y = self.y + self.height / 2
         return x, y

@@ -31,8 +31,8 @@ class QuickPotion (ActionGui):
         if self.isAddingCompleted:
             self.isAddingCompleted = False
             self.isAddingMore = False
-            pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.1)
-            base.keyboard_helper.pressKey('v', 'close inventory')
+            pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.25)
+            base.keyboard_helper.pressKey('v', 0.1, 'close inventory')
         elif self.isActionRequired:
             self.doAction()
 
@@ -46,11 +46,12 @@ class QuickPotion (ActionGui):
         self.isAddingMore = True
         self.lastMousePosition = pyautogui.position() 
         pos = self.vm.convertGameToScreen(self.inventoryPosition)
-        pyautogui.moveTo(pos[0], pos[1], 0.1)
-        pyautogui.keyDown('shift')
-        pyautogui.keyDown(self.key)
+        pyautogui.moveTo(pos[0], pos[1], 0.25)
         time.sleep(0.1)
-        pyautogui.keyUp(self.key)
-        pyautogui.keyUp('shift')
+        base.keyboard_helper.keyDown('shift')
+        base.keyboard_helper.keyDown(self.key)
+        time.sleep(0.1)
+        base.keyboard_helper.keyUp(self.key)
+        base.keyboard_helper.keyUp('shift')
         time.sleep(0.1)
         self.isAddingCompleted = True
