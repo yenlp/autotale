@@ -38,6 +38,7 @@ class VMController:
         self.onFrameUpdate(0)
         p = self.screenUtils.captureAndSave('screenshots/screenshot_detect.png', region=(self.x, self.y, self.width, self.height))
         return p
+        
     def activate(self):
         win_app = gw.getWindowsWithTitle(self.name)[0]
         win_app.activate()

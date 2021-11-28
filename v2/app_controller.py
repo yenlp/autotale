@@ -29,7 +29,7 @@ class AppController:
             vm.onFrameRender()
 
     def run(self):
-        FPS = 2
+        FPS = 10
         FRAME_RATE = 1.0 / FPS
         current_time = time.time()
         last_time = current_time

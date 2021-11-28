@@ -4,3 +4,6 @@ class ActionGui:
 
     def doAction(self):
         pass
+
+    def isRequired(self):
+        return self.isActionRequired

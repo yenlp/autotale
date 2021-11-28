@@ -8,7 +8,6 @@ class ActionGuiKey (ActionGui):
 
     def setActionKey(self, key):
         self.key = key
-        
+
     def doAction(self):
-        print('ActionGuiKey::doAction')
-        base.keyboard_helper.pressKey(self.key)
+        base.keyboard_helper.pressKey(self.key, 'ActionGuiKey::doAction')
