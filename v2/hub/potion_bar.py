@@ -28,7 +28,11 @@ class PotionBar (ActionGuiKey):
         return a * (1-t) + b * t
 
     def onFrameUpdate(self, deltaTime, screenshot):
-        print('PotionBar::onFrameUpdate')
+        color = screenshot.getpixel(self.triggerPosition)
+        if self.color.isEqual(Color(color[0], color[1], color[2]), 30):
+            self.isActionRequired = False
+        else:
+            self.isActionRequired = True
 
     def onFrameRender(self, screenshot):
         print('PotionBar::onFrameRender')

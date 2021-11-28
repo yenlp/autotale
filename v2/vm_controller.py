@@ -18,6 +18,7 @@ class VMController:
         self.screenUtils = ScreenUtils()
         self.gameState = GameIdle()
         self.img = self.detectWindow()
+        self.activate()
 
     def detectWindow(self):
         self.onFrameUpdate(0)
@@ -37,6 +38,9 @@ class VMController:
         self.onFrameUpdate(0)
         p = self.screenUtils.captureAndSave('screenshots/screenshot_detect.png', region=(self.x, self.y, self.width, self.height))
         return p
+    def activate(self):
+        win_app = gw.getWindowsWithTitle(self.name)[0]
+        win_app.activate()
 
     def onFrameUpdate(self, deltaTime):
         print('VMController::onFrameUpdate', self.name)
