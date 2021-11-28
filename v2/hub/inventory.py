@@ -2,9 +2,13 @@ import base.keyboard_helper
 
 class Inventory:
     def __init__(self) -> None:
+        self.vm = None
         self.isOpened = False
         self.isInteractable = True
         self.time = 0
+
+    def setVM(self, vm):
+        self.vm = vm
 
     def onFrameUpdate(self, deltaTime, screenshot):
         if self.time > 0:
@@ -17,7 +21,7 @@ class Inventory:
 
     def checkInventory(self, screenshot):
         y = 590
-        for x in 420, 430, 440, 450, 490, 500, 510:
+        for x in range(420, 510, 20):
             pix = screenshot.getpixel((x, y))
             if pix[0] < 100 or pix[2] > 100:
                 return False

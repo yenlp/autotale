@@ -17,6 +17,7 @@ class VMController:
         self.marginBot = 0
         self.screenUtils = ScreenUtils()
         self.gameState = GameIdle()
+        self.gameState.setVM(self)
         self.img = self.detectWindow()
         self.activate()
 
@@ -58,3 +59,8 @@ class VMController:
     def onFrameRender(self):
         #print('VMController::onFrameRender', self.name)
         self.gameState.onFrameRender(self.img)
+
+    def convertGameToScreen(self, position):
+        x = self.x + position[0]
+        y = self.y + position[1]
+        return x, y

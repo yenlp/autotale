@@ -14,6 +14,9 @@ class PotionBar (ActionGuiKey):
         self.percent = 1.0
         self.setPercent(1.0)
 
+    def setVM(self, vm):
+        self.vm = vm
+        
     def setColor(self, color):
         self.color = color
 

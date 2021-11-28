@@ -4,7 +4,12 @@ class GameState:
     def __init__(self):
         print('GameState')
         self.isRunning = True
+        self.vm = None
         self.hubController = HubController()
+
+    def setVM(self, vm):
+        self.vm = vm
+        self.hubController.setVM(vm)
 
     def onFrameUpdate(self, deltaTime, screenshot):
         #print('GameState::onFrameUpdate')

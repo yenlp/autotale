@@ -13,6 +13,8 @@ class HubController:
     def __init__(self):
         #print('HubController')
 
+        self.vm = None
+
         healthbar = HealthBar(441, 695, 610)
         healthbar.setColor(Color(170, 10, 10))
         healthbar.setPercent(0.4)
@@ -30,12 +32,31 @@ class HubController:
         self.potionBars.append(staminaBar)
         self.potionBars.append(manaBar)
 
+        quickStamina = QuickStamina(620, 688, Color(0, 30, 0))
+        quickStamina.setKey('1')
+        quickStamina.setInventoryPosition((146, 555))
+        quickHealth = QuickHealth(645, 688, Color(30, 0, 0))
+        quickHealth.setKey('2')
+        quickHealth.setInventoryPosition((168, 555))
+        quickMana = QuickMana(670, 688, Color(0, 0, 30))
+        quickMana.setKey('3')
+        quickMana.setInventoryPosition((190, 555))
+
         self.quickPotions = []
-        self.quickPotions.append(QuickStamina(620, 688, Color(0, 30, 0)))
-        self.quickPotions.append(QuickHealth(645, 688, Color(30, 0, 0)))
-        self.quickPotions.append(QuickMana(670, 688, Color(0, 0, 30)))
+        self.quickPotions.append(quickHealth)
+        self.quickPotions.append(quickStamina)
+        self.quickPotions.append(quickMana)
 
         self.inventory = Inventory()
+
+    def setVM(self, vm):
+        self.vm = vm
+        self.inventory.setVM(vm)
+        for bar in self.potionBars:
+            bar.setVM(vm)
+
+        for potion in self.quickPotions:
+            potion.setVM(vm)
 
     def onFrameUpdate(self, deltaTime, screenshot):
         #print('HubController::onFrameUpdate')
@@ -51,10 +72,11 @@ class HubController:
         #print('HubController::onFrameRender')
         for bar in self.potionBars:
             bar.onFrameRender(screenshot)
-        
+        isRequired = False
         if not self.inventory.isOpen():
             for potion in self.quickPotions:
                 if potion.isRequired():
+                    isRequired = True
                     self.inventory.open()
                     break
         for potion in self.quickPotions:
