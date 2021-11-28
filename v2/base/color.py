@@ -14,3 +14,15 @@ class Color:
         color = Color()
         color.setColor(0,0,0)
         return color
+
+    def isEqual(self, other):
+        return self.r == other.r and self.g == other.g and self.b == other.b
+
+    def isEqual(self, other, tolerance):
+        if abs(self.r - other.r) > tolerance:
+            return False
+        if abs(self.g - other.g) > tolerance:
+            return False
+        if abs(self.b - other.b) > tolerance:
+            return False
+        return True

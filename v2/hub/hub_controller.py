@@ -17,3 +17,9 @@ class HubController:
         self.quickPotions.append(QuickPotion())
         self.quickPotions.append(QuickPotion())
         self.quickPotions.append(QuickPotion())
+
+    def onFrameUpdate(self, deltaTime, screenshot):
+        print('HubController::onFrameUpdate')
+
+    def onFrameRender(self, screenshot):
+        print('HubController::onFrameRender')

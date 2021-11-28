@@ -17,6 +17,12 @@ class AppController:
         for vm in self.vms:
             vm.onFrameUpdate(deltaTime)
 
+    # render function
+    # do actions
+    def onFrameRender(self):
+        for vm in self.vms:
+            vm.onFrameRender()
+
     def run(self):
         FPS = 2
         FRAME_RATE = 1.0 / FPS
@@ -29,7 +35,8 @@ class AppController:
             current_time = time.time()
             dt = current_time - last_time            
             if not self.isPause:
-                self.onFrameUpdate(dt)  
+                self.onFrameUpdate(dt)
+                self.onFrameRender()
     
             last_time = current_time
             t = time.time()

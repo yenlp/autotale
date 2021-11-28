@@ -8,3 +8,8 @@ class GameState:
 
     def onFrameUpdate(self, deltaTime, screenshot):
         print('GameState::onFrameUpdate')
+        self.hubController.onFrameUpdate(deltaTime, screenshot)
+
+    def onFrameRender(self, screenshot):
+        print('GameState::onFrameRender')
+        self.hubController.onFrameRender(screenshot)
