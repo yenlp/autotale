@@ -1,5 +1,6 @@
 from vm_controller import VMController
 import time
+import base.keyboard_helper
 
 class AppController:
     def __init__(self):
@@ -7,9 +8,13 @@ class AppController:
         self.isAlive = True
         self.isPause = False
         self.vms = []
+        base.keyboard_helper.setupKeyboard(self)
 
     def addVM(self, vm_name):
         self.vms.append(VMController(vm_name))
+
+    def onQuitCommand(self):
+        self.isAlive = False
 
     # update virtual machines 
     # main update function
@@ -43,7 +48,4 @@ class AppController:
             frame_time = t - last_time
             if frame_time < FRAME_RATE:
                 time.sleep(FRAME_RATE - frame_time)
-            if frame_count > 10:
-                pass
-                #self.isAlive = False
         print('Exit')

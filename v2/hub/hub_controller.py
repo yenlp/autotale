@@ -6,7 +6,6 @@ from hub.quick_health import QuickHealth
 from hub.quick_mana import QuickMana
 from hub.quick_stamina import QuickStamina
 from hub.stamina_bar import StaminaBar
-from hub.quick_potion import QuickPotion
 
 class HubController:
     def __init__(self):
