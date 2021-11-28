@@ -19,6 +19,12 @@ def init():
     keyboard.add_hotkey('ctrl+]', autoRotate, args=())
     keyboard.add_hotkey('ctrl+[', autoLoot, args=())
 
+    keyboard.add_hotkey('ctrl+u', spThreshold, args=())
+    keyboard.add_hotkey('ctrl+i', hpThreshold, args=())
+    keyboard.add_hotkey('ctrl+o', mpThreshold, args=())
+    keyboard.add_hotkey('ctrl+-', combat_duration_decrease, args=())
+    keyboard.add_hotkey('ctrl+=', combat_duration_increase, args=())
+
 def pause():
     app_state.isPause = True
     if app_state.isPause:
@@ -68,6 +74,38 @@ def switchAutoCombat():
 def autoLoot():
     app_state.isAutoLoot = not app_state.isAutoLoot
     print('AutoLoot is ' + str(app_state.isAutoLoot))
+
+def hpThreshold():
+    app_state.hpThreshold = app_state.hpThreshold + 0.1
+    if app_state.hpThreshold > 1.0:
+        app_state.hpThreshold = app_state.hpThreshold - 1.0
+    if app_state.hpThreshold < 0.4:
+        app_state.hpThreshold = 0.4
+    print('hpThreshold is ' + str(app_state.hpThreshold))
+
+def spThreshold():
+    app_state.spThreshold = app_state.spThreshold + 0.1
+    if app_state.spThreshold > 1.0:
+        app_state.spThreshold = app_state.spThreshold - 1.0
+    if app_state.spThreshold < 0.2:
+        app_state.spThreshold = 0.2
+    print('spThreshold is ' + str(app_state.spThreshold))
+
+def mpThreshold():
+    app_state.mpThreshold = app_state.mpThreshold + 0.1
+    if app_state.mpThreshold > 1.0:
+        app_state.mpThreshold = app_state.mpThreshold - 1.0
+    if app_state.mpThreshold < 0.2:
+        app_state.mpThreshold = 0.2
+    print('mpThreshold is ' + str(app_state.mpThreshold))
+
+def combat_duration_decrease():
+    app_state.combat_duration = app_state.combat_duration - 1
+    print('combat_duration is ' + str(app_state.combat_duration))
+
+def combat_duration_increase():
+    app_state.combat_duration = app_state.combat_duration + 1
+    print('combat_duration is ' + str(app_state.combat_duration))
 
 def autoRotate():
     app_state.isAutoRotate = not app_state.isAutoRotate

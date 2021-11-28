@@ -3,6 +3,7 @@ import ui_defines
 import time
 import pyautogui
 import pygetwindow as gw
+import app_state
 
 
 VM_WIDTH = 1024
@@ -64,9 +65,9 @@ def update(title):
     screen_topleft = x_mid - VM_WIDTH / 2, screen_topleft[1] + margin_top
     screen_size = VM_WIDTH, screen_size[1] - margin_top - margin_bot
     position_mid = VM_WIDTH / 2, VM_HEIGHT / 2 + 1
-    position_sp = getPositionOnWindow(ui_defines.sp_bar_pos_low, ui_defines.sp_bar_pos_high, 0.3)
-    position_hp = getPositionOnWindow(ui_defines.hp_bar_pos_low, ui_defines.hp_bar_pos_high, 0.55)
-    position_mp = getPositionOnWindow(ui_defines.mp_bar_pos_low, ui_defines.mp_bar_pos_high, 0.1)
+    position_sp = getPositionOnWindow(ui_defines.sp_bar_pos_low, ui_defines.sp_bar_pos_high, app_state.spThreshold)
+    position_hp = getPositionOnWindow(ui_defines.hp_bar_pos_low, ui_defines.hp_bar_pos_high, app_state.hpThreshold)
+    position_mp = getPositionOnWindow(ui_defines.mp_bar_pos_low, ui_defines.mp_bar_pos_high, app_state.mpThreshold)
     slot_hp = ui_defines.slot2_pos
     slot_sp = ui_defines.slot1_pos
     slot_mp = ui_defines.slot3_pos

@@ -18,6 +18,11 @@ STATE_HOME=1
 STATE_BATTLE=2
 state=STATE_NONE
 
+hpThreshold = 0.6
+spThreshold = 0.6
+mpThreshold = 0.6
+combat_duration=60
+
 isHPLow=False
 isMPLow=False
 isSPLow=False
@@ -62,7 +67,7 @@ pot_sp = 0
 pot_hp = 0
 pot_mp = 0
 pot_count = 0
-pot_balance_count = 20
+pot_balance_count = 100
 
 def onBattle(img):
     global battle_state
@@ -72,15 +77,19 @@ def onBattle(img):
     global pot_hp
     global pot_mp
     global pot_count
+
+    potted = False
+
     if isHPLow:
-        pot_hp = 0
+        #pot_hp = 0
         if isHPEmpty:
             if pot_count < 2:
+                potted = True
                 HP_more()
                 pot_count = pot_count + 1
-                if pot_sp != 0:
+                if pot_sp == 0:
                     pot_sp = pot_balance_count
-                if pot_mp != 0:
+                if pot_mp == 0:
                     pot_mp = pot_balance_count
             else:
                 pot_count = 0
@@ -90,54 +99,71 @@ def onBattle(img):
             HP_recovery()
             pot_count = 0
         return
-    else:
-        if isMPLow:
-            pot_mp = 0
-            if not isMPEmpty:
-                if pot_mp > 0:
-                    pot_mp = pot_mp - 1
-                MP_recovery()
-        if isSPLow:
-            pot_sp = 0
-            if not isSPEmpty:
-                if pot_sp > 0:
-                    pot_sp = pot_sp - 1
-                SP_recovery()
 
-    if pot_hp > 0:
-        pot_hp = pot_hp - 1
-        HP_recovery()
+    if isAutoRotate:
+        key = 'left'
+        pyautogui.keyDown(key)
+        pyautogui.keyUp(key)
     
-    if pot_sp > 0:
-        pot_sp = pot_sp - 1
-        SP_recovery()
-
-    if pot_mp > 0:
-        pot_mp = pot_mp - 1
+    if not potted and isMPLow and not isMPEmpty:
+        potted = True
+        if pot_mp > 0:
+            pot_mp = pot_mp - 1
         MP_recovery()
+        return
+            
+    if not potted and isSPLow and not isSPEmpty:
+        potted = True
+        if pot_sp > 0:
+            pot_sp = pot_sp - 1
+        SP_recovery()
+        return
 
     if isMPEmpty:
         MP_more()
-        if pot_sp != 0:
+        if pot_sp == 0:
             pot_sp = pot_balance_count
-        if pot_hp != 0:
+        if pot_hp == 0:
             pot_hp = pot_balance_count
+        return
+
     if isSPEmpty:
         SP_more()
-        if pot_hp != 0:
+        if pot_hp == 0:
             pot_hp = pot_balance_count
-        if pot_mp != 0:
+        if pot_mp == 0:
             pot_mp = pot_balance_count
+        return
+    
+    if not potted and pot_sp > 0:
+        if random.randrange(1, 3, 1) < 2:
+            potted = True
+            pot_sp = pot_sp - 1
+            SP_recovery()
+            return
+
+    if not potted and pot_mp > 0:
+        if random.randrange(1, 3, 1) < 3:
+            potted = True
+            pot_mp = pot_mp - 1
+            MP_recovery()
+            return
+
+    if not potted and pot_hp > 0:
+        potted = True
+        pot_hp = pot_hp - 1
+        HP_recovery()
+        return
 
     if isAutoCombat:
         current_time = time.time()
         if battle_state == BATTLE_STATE_LOOT:
-            if current_time - time_battle > 7:
+            if current_time - time_battle > 5:
                 time_battle = current_time
                 battle_state = BATTLE_STATE_FIND_ENEMY
                 loot_state = 0
                 pressKey('a', 'stop loot')
-        elif isAutoLoot and current_time - time_battle > 80:
+        elif isAutoLoot and current_time - time_battle > combat_duration:
                 time_battle = current_time
                 battle_state = BATTLE_STATE_LOOT
                 loot_state = 0
@@ -146,15 +172,11 @@ def onBattle(img):
             BATTLE_STATE_COMBAT : combat,
             BATTLE_STATE_LOOT: loot
         }.get(battle_state, doNothing)(img)
-        if isAutoRotate:
-            key = 'right'
-            pyautogui.keyDown(key)
-            pyautogui.keyUp(key)
 
 last_attack_ts = time.time()
 findEnemyState = 0
 last_color_enemy = 0,0,0
-combat_r_default = 200
+combat_r_default = 250
 combat_r = 0
 combat_angle = 0
 combat_find_time = 0.0
@@ -198,7 +220,7 @@ def findEnemy(img):
             print('enemy found - Combat')
             return
         findEnemyState = 0
-        time.sleep(0.3)           
+        time.sleep(0.35)           
 
 def combat(img):
     global last_attack_ts
@@ -248,7 +270,7 @@ def loot(img):
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1])
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-        time.sleep(0.3)
+        time.sleep(0.4)
 
 def battleMode():
     global state
@@ -273,12 +295,15 @@ def pressKey(key, mess):
 
 def SP_recovery():
     pressKey('1', 'SP_recovery')
+    #time.sleep(0.15)
 
 def HP_recovery():
     pressKey('2', 'HP_recovery')
+    #time.sleep(0.15)
 
 def MP_recovery():
     pressKey('3', 'MP_recovery')
+    #time.sleep(0.15)
 
 def HP_more():
     print('more')
