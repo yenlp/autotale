@@ -9,6 +9,8 @@ def setupKeyboard(app):
     g_app = app
     pyautogui.PAUSE = 0.1
     keyboard.add_hotkey('ctrl+0', quit, args=())
+    keyboard.add_hotkey('ctrl+p', pause, args=())
+    keyboard.add_hotkey('ctrl+b', battle, args=())
 
 def pressKey(key, sleepTime = 0.0, mess = None):
     if mess != None:
@@ -31,3 +33,9 @@ def keyUp(key, sleepTime = 0.0, mess = None):
 
 def quit():
     g_app.onQuitCommand()
+
+def pause():
+    g_app.onPauseCommand()
+
+def battle():
+    g_app.onBattleCommand()

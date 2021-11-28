@@ -23,6 +23,8 @@ class GameBattle(GameState):
 
     def onFrameUpdate(self, deltaTime, screenshot):
         super().onFrameUpdate(deltaTime, screenshot)
+        if self.hubController.isPotting():
+            return
         self.state.onFrameUpdate(deltaTime, screenshot, self.vm)
         if self.state.isCompleted():
             nextState = self.state.getNextStateId()
@@ -30,4 +32,6 @@ class GameBattle(GameState):
 
     def onFrameRender(self, screenshot):
         super().onFrameRender(screenshot)
+        if self.hubController.isPotting():
+            return
         self.state.onFrameRender(screenshot, self.vm)
