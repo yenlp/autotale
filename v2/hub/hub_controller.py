@@ -5,15 +5,15 @@ from hub.stamina_bar import StaminaBar
 from hub.quick_potion import QuickPotion
 
 class HubController:
-    def __init__(seft):
+    def __init__(self):
         print('HubController')
 
-        seft.potionBars = []
-        seft.potionBars.append(HealthBar())
-        seft.potionBars.append(StaminaBar())
-        seft.potionBars.append(ManaBar())
+        self.potionBars = []
+        self.potionBars.append(HealthBar(200, 50, 150))
+        self.potionBars.append(StaminaBar(100, 50, 150))
+        self.potionBars.append(ManaBar(300, 50, 150))
 
-        seft.quickPotions = []
-        seft.quickPotions.append(QuickPotion())
-        seft.quickPotions.append(QuickPotion())
-        seft.quickPotions.append(QuickPotion())
+        self.quickPotions = []
+        self.quickPotions.append(QuickPotion())
+        self.quickPotions.append(QuickPotion())
+        self.quickPotions.append(QuickPotion())

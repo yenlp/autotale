@@ -7,44 +7,45 @@ VM_WIDTH = 1024
 VM_HEIGHT = 705
 
 class VMController:
-    def __init__(seft, name):
-        seft.name = name
-        seft.x = 0
-        seft.y = 0
-        seft.width = VM_WIDTH
-        seft.height = VM_HEIGHT
-        seft.marginTop = 0
-        seft.marginBot = 0
-        seft.screenUtils = ScreenUtils()
-        seft.img = seft.detectWindow()
-        seft.gameState = GameIdle()
+    def __init__(self, name):
+        self.name = name
+        self.x = 0
+        self.y = 0
+        self.width = VM_WIDTH
+        self.height = VM_HEIGHT
+        self.marginTop = 0
+        self.marginBot = 0
+        self.screenUtils = ScreenUtils()
+        self.gameState = GameIdle()
+        self.img = self.detectWindow()
 
-    def detectWindow(seft):
-        seft.update(0)
-        p = seft.screenUtils.captureAndSave('screenshots/screenshot_init.png', region=(seft.x, seft.y, seft.width, seft.height))
-        x_mid = seft.width / 2
-        seft.marginTop = 5
-        color = p.getpixel((x_mid, seft.marginTop))
+    def detectWindow(self):
+        self.onFrameUpdate(0)
+        p = self.screenUtils.captureAndSave('screenshots/screenshot_init.png', region=(self.x, self.y, self.width, self.height))
+        x_mid = self.width / 2
+        self.marginTop = 5
+        color = p.getpixel((x_mid, self.marginTop))
         found = False
         while not found:
-            seft.marginTop = seft.marginTop + 1
-            color2 = p.getpixel((x_mid, seft.marginTop))
+            self.marginTop = self.marginTop + 1
+            color2 = p.getpixel((x_mid, self.marginTop))
             for i in [0,1,2]:
                 diff = color[i] - color2[i]
                 if abs(diff) > 5:
                     found = True
-        seft.marginBot = seft.height - seft.marginTop - VM_HEIGHT
-        seft.update(0)
-        p = seft.screenUtils.captureAndSave('screenshots/screenshot_detect.png', region=(seft.x, seft.y, seft.width, seft.height))
+        self.marginBot = self.height - self.marginTop - VM_HEIGHT
+        self.onFrameUpdate(0)
+        p = self.screenUtils.captureAndSave('screenshots/screenshot_detect.png', region=(self.x, self.y, self.width, self.height))
         return p
 
-    def update(seft, deltaTime):
-        win_app = gw.getWindowsWithTitle(seft.name)[0]
+    def onFrameUpdate(self, deltaTime):
+        win_app = gw.getWindowsWithTitle(self.name)[0]
         w, h = win_app.size
         x, y = win_app.topleft
         x_mid = x + w / 2
-        seft.x = x_mid - VM_WIDTH / 2
-        seft.y = y + seft.marginTop
-        seft.height = h - seft.marginBot - seft.marginTop
-        seft.img = seft.screenUtils.capture(region=(seft.x, seft.y, seft.width, seft.height))
-        print('VMController', seft.name)
+        self.x = x_mid - VM_WIDTH / 2
+        self.y = y + self.marginTop
+        self.height = h - self.marginBot - self.marginTop
+        self.img = self.screenUtils.capture(region=(self.x, self.y, self.width, self.height))
+        self.gameState.onFrameUpdate(deltaTime, self.img)
+        print('VMController', self.name)

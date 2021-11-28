@@ -1,4 +1,4 @@
 
 class QuickPotion:
-    def __init__(seft):
+    def __init__(self):
         print('QuickPotion')

@@ -1,7 +1,10 @@
 from hub.hub_controller import HubController
 
 class GameState:
-    def __init__(seft):
+    def __init__(self):
         print('GameState')
-        seft.isRunning = True
-        seft.hubController = HubController()
+        self.isRunning = True
+        self.hubController = HubController()
+
+    def onFrameUpdate(self, deltaTime, screenshot):
+        print('GameState::onFrameUpdate')
