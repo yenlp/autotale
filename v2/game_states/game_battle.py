@@ -1,28 +1,25 @@
 from game_states.game_state import GameState
+from game_states.sub_state import SubState
 from game_states.state_combat import StateCombat
 from game_states.state_find_enemy import StateFindEnemy
 from game_states.state_looting import StateLooting
 
 class GameBattle(GameState):
-    IDLE = 0
-    FIND_ENEMY = 1
-    COMBAT = 2
-    LOOT = 3
     def __init__(self):
         print('GameBattle')
         super().__init__()
-        self.state = self.createState(GameBattle.FIND_ENEMY)
+        self.state = self.createState(SubState.FIND_ENEMY)
 
     def setVM(self, vm):
         super().setVM(vm)
 
     def createState(self, stateId):
-        if stateId == GameBattle.FIND_ENEMY:
-            return StateFindEnemy(GameBattle.COMBAT)
-        if stateId == GameBattle.COMBAT:
-            return StateCombat(GameBattle.LOOT)
-        if stateId == GameBattle.LOOT:
-            return StateLooting(GameBattle.FIND_ENEMY)
+        if stateId == SubState.FIND_ENEMY:
+            return StateFindEnemy()
+        if stateId == SubState.COMBAT:
+            return StateCombat()
+        if stateId == SubState.LOOT:
+            return StateLooting()
 
     def onFrameUpdate(self, deltaTime, screenshot):
         super().onFrameUpdate(deltaTime, screenshot)
