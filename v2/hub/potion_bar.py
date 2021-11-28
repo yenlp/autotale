@@ -35,6 +35,6 @@ class PotionBar (ActionGuiKey):
             self.isActionRequired = True
 
     def onFrameRender(self, screenshot):
-        print('PotionBar::onFrameRender')
+        #print('PotionBar::onFrameRender')
         if self.isActionRequired:
             self.doAction()

@@ -2,12 +2,15 @@
 from base.color import Color
 from hub.health_bar import HealthBar
 from hub.mana_bar import ManaBar
+from hub.quick_health import QuickHealth
+from hub.quick_mana import QuickMana
+from hub.quick_stamina import QuickStamina
 from hub.stamina_bar import StaminaBar
 from hub.quick_potion import QuickPotion
 
 class HubController:
     def __init__(self):
-        print('HubController')
+        #print('HubController')
 
         healthbar = HealthBar(441, 695, 610)
         healthbar.setColor(Color(170, 10, 10))
@@ -27,16 +30,22 @@ class HubController:
         self.potionBars.append(manaBar)
 
         self.quickPotions = []
-        self.quickPotions.append(QuickPotion())
-        self.quickPotions.append(QuickPotion())
-        self.quickPotions.append(QuickPotion())
+        self.quickPotions.append(QuickStamina(620, 688, Color(0, 30, 0)))
+        self.quickPotions.append(QuickHealth(645, 688, Color(30, 0, 0)))
+        self.quickPotions.append(QuickMana(670, 688, Color(0, 0, 30)))
 
     def onFrameUpdate(self, deltaTime, screenshot):
-        print('HubController::onFrameUpdate')
+        #print('HubController::onFrameUpdate')
         for bar in self.potionBars:
             bar.onFrameUpdate(deltaTime, screenshot)
 
+        for potion in self.quickPotions:
+            potion.onFrameUpdate(deltaTime, screenshot)
+
     def onFrameRender(self, screenshot):
-        print('HubController::onFrameRender')
+        #print('HubController::onFrameRender')
         for bar in self.potionBars:
             bar.onFrameRender(screenshot)
+
+        for potion in self.quickPotions:
+            potion.onFrameRender(screenshot)

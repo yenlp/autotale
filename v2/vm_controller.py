@@ -43,7 +43,7 @@ class VMController:
         win_app.activate()
 
     def onFrameUpdate(self, deltaTime):
-        print('VMController::onFrameUpdate', self.name)
+        #print('VMController::onFrameUpdate', self.name)
         win_app = gw.getWindowsWithTitle(self.name)[0]
         w, h = win_app.size
         x, y = win_app.topleft
@@ -55,5 +55,5 @@ class VMController:
         self.gameState.onFrameUpdate(deltaTime, self.img)
 
     def onFrameRender(self):
-        print('VMController::onFrameRender', self.name)
+        #print('VMController::onFrameRender', self.name)
         self.gameState.onFrameRender(self.img)
