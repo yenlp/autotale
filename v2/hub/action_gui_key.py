@@ -5,7 +5,7 @@ class ActionGuiKey (ActionGui):
     def __init__(self) -> None:
         super().__init__()
         self.key = 'none'
-        self.message = ''
+        self.message = None
 
     def setActionKey(self, key):
         self.key = key

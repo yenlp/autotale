@@ -37,7 +37,7 @@ class Inventory:
             return
         self.isInteractable = False
         self.time = 2
-        keyboard_helper.pressKey('v', 0.1, 'open inventory')
+        keyboard_helper.pressKey('v', 0.1, 'Open Inventory')
 
     def close(self):
         self.open()
