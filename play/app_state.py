@@ -78,19 +78,11 @@ def onBattle(img):
     global pot_mp
     global pot_count
 
-    potted = False
-
     if isHPLow:
-        #pot_hp = 0
         if isHPEmpty:
             if pot_count < 2:
-                potted = True
                 HP_more()
                 pot_count = pot_count + 1
-                if pot_sp == 0:
-                    pot_sp = pot_balance_count
-                if pot_mp == 0:
-                    pot_mp = pot_balance_count
             else:
                 pot_count = 0
                 pot_hp = pot_sp = pot_mp = 0
@@ -98,6 +90,7 @@ def onBattle(img):
         else:
             HP_recovery()
             pot_count = 0
+            pot_hp = pot_hp + 1
         return
 
     if isAutoRotate:
@@ -105,54 +98,42 @@ def onBattle(img):
         pyautogui.keyDown(key)
         pyautogui.keyUp(key)
     
-    if not potted and isMPLow and not isMPEmpty:
-        potted = True
-        if pot_mp > 0:
-            pot_mp = pot_mp - 1
+    if isMPLow and not isMPEmpty:
+        pot_mp = pot_mp + 1
         MP_recovery()
         return
             
-    if not potted and isSPLow and not isSPEmpty:
-        potted = True
-        if pot_sp > 0:
-            pot_sp = pot_sp - 1
+    if isSPLow and not isSPEmpty:
+        pot_sp = pot_sp + 1
         SP_recovery()
         return
 
     if isMPEmpty:
         MP_more()
-        if pot_sp == 0:
-            pot_sp = pot_balance_count
-        if pot_hp == 0:
-            pot_hp = pot_balance_count
         return
 
     if isSPEmpty:
         SP_more()
-        if pot_hp == 0:
-            pot_hp = pot_balance_count
-        if pot_mp == 0:
-            pot_mp = pot_balance_count
         return
     
-    if not potted and pot_sp > 0:
-        if random.randrange(1, 3, 1) < 2:
-            potted = True
-            pot_sp = pot_sp - 1
+    pot_diff_max = 10
+
+    if pot_sp + pot_diff_max < pot_hp:
+        if random.randrange(1, 4, 1) == 1:
+            pot_sp = pot_sp + 1
             SP_recovery()
             return
 
-    if not potted and pot_mp > 0:
-        if random.randrange(1, 3, 1) < 3:
-            potted = True
-            pot_mp = pot_mp - 1
+    if pot_mp + pot_diff_max < pot_sp:
+        if random.randrange(1, 3, 1) == 1:
+            pot_mp = pot_mp + 1
             MP_recovery()
             return
 
-    if not potted and pot_hp > 0:
-        potted = True
-        pot_hp = pot_hp - 1
-        HP_recovery()
+    if pot_hp + pot_diff_max < pot_mp:
+        if random.randrange(1, 2, 1) == 1:
+            pot_hp = pot_hp + 1
+            HP_recovery()
         return
 
     if isAutoCombat:
