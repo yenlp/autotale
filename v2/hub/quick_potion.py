@@ -2,7 +2,7 @@ import pyautogui
 import time
 from base.color import Color
 from hub.action_gui import ActionGui
-import base.keyboard_helper
+import base.keyboard_helper as keyboard_helper
 
 class QuickPotion (ActionGui):
     def __init__(self, x, y, color):
@@ -27,13 +27,7 @@ class QuickPotion (ActionGui):
 
     def onFrameRender(self, screenshot):
         #print('PotionBar::onFrameRender')
-
-        if self.isAddingCompleted:
-            self.isAddingCompleted = False
-            self.isAddingMore = False
-            pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.25)
-            base.keyboard_helper.pressKey('v', 0.1, 'close inventory')
-        elif self.isActionRequired:
+        if self.isActionRequired:
             self.doAction()
 
     def doAction(self):
@@ -46,12 +40,14 @@ class QuickPotion (ActionGui):
         self.isAddingMore = True
         self.lastMousePosition = pyautogui.position() 
         pos = self.vm.convertGameToScreen(self.inventoryPosition)
-        pyautogui.moveTo(pos[0], pos[1], 0.25)
+        pyautogui.moveTo(pos[0], pos[1], 0.1)
         time.sleep(0.1)
-        base.keyboard_helper.keyDown('shift')
-        base.keyboard_helper.keyDown(self.key)
+        keyboard_helper.keyDown('shift')
+        keyboard_helper.keyDown(self.key)
         time.sleep(0.1)
-        base.keyboard_helper.keyUp(self.key)
-        base.keyboard_helper.keyUp('shift')
+        keyboard_helper.keyUp(self.key)
+        keyboard_helper.keyUp('shift')
         time.sleep(0.1)
-        self.isAddingCompleted = True
+        pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.2)
+        keyboard_helper.pressKey('v', 0.1, 'close inventory')
+        self.isAddingMore = False

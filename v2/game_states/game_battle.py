@@ -1,3 +1,5 @@
+import settings
+import base.keyboard_helper as keyboard_helper
 from game_states.game_state import GameState
 from game_states.sub_state import SubState
 from game_states.state_combat import StateCombat
@@ -34,4 +36,8 @@ class GameBattle(GameState):
         super().onFrameRender(screenshot)
         if self.hubController.isPotting():
             return
+        if settings.isAutoRotate:
+            key = 'left'
+            keyboard_helper.keyDown(key, 0.15)
+            keyboard_helper.keyUp(key)
         self.state.onFrameRender(screenshot, self.vm)

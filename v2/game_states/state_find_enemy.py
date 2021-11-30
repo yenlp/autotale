@@ -1,7 +1,7 @@
 import random
 import pyautogui
 from game_states.sub_state import SubState
-import base.keyboard_helper
+import base.keyboard_helper as keyboard_helper
 
 class StateFindEnemy (SubState):
     FINDING = 0
@@ -50,10 +50,10 @@ class StateFindEnemy (SubState):
         y = pos[1] + random.randrange(-r, r, 1) * 0.7
         pyautogui.moveTo(x, y, 0.15)
         keyShift = 'shift'
-        base.keyboard_helper.keyDown(keyShift, 0.15)
+        keyboard_helper.keyDown(keyShift, 0.15)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-        base.keyboard_helper.keyUp(keyShift, 0.15)
+        keyboard_helper.keyUp(keyShift, 0.15)
 
         self.time = 0
         self.state = StateFindEnemy.CONFIRMING

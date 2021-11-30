@@ -81,7 +81,9 @@ class HubController:
                     break
         if self.inventory.isOpen():
             for potion in self.quickPotions:
-                potion.onFrameRender(screenshot)
+                if potion.isRequired():
+                    potion.onFrameRender(screenshot)
+                    break
 
     def isPotting(self):
         for potion in self.quickPotions:

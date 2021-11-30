@@ -1,5 +1,6 @@
 import math
 import pyautogui
+import settings
 from game_states.sub_state import SubState
 import base.keyboard_helper as keyboard_helper
 
@@ -12,7 +13,7 @@ class StateLooting (SubState):
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
-        if self.time > 5:
+        if self.time > settings.lootDuration:
             self.nextState = SubState.FIND_ENEMY
             keyboard_helper.pressKey('a', 0.05)
 

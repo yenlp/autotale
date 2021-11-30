@@ -1,6 +1,7 @@
 import math
 import random
 import pyautogui
+import settings
 from game_states.sub_state import SubState
 
 class StateCombat (SubState):
@@ -16,7 +17,7 @@ class StateCombat (SubState):
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
-        if self.time > 10:
+        if self.time > settings.combatDuration:
             self.nextState = SubState.LOOT
             return
         if self.isOnEnemy(screenshot):

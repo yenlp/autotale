@@ -1,4 +1,4 @@
-import base.keyboard_helper
+import base.keyboard_helper as keyboard_helper
 
 class Inventory:
     def __init__(self) -> None:
@@ -18,6 +18,8 @@ class Inventory:
                 self.isInteractable = True
         elif self.isInteractable:
             self.isOpened = self.checkInventory(screenshot)
+        else:
+            self.isOpened = False
 
     def checkInventory(self, screenshot):
         y = 590
@@ -35,11 +37,11 @@ class Inventory:
             return
         self.isInteractable = False
         self.time = 1
-        base.keyboard_helper.pressKey('v', 0.1, 'open inventory')
+        keyboard_helper.pressKey('v', 0.1, 'open inventory')
 
     def close(self):
         if not self.isInteractable:
             return
         self.isInteractable = False
         self.time = 2
-        base.keyboard_helper.pressKey('v', 0.1, 'close inventory')
+        keyboard_helper.pressKey('v', 0.1, 'close inventory')

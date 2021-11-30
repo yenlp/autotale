@@ -1,7 +1,7 @@
 import time
 import queue
 from vm_controller import VMController
-import base.keyboard_helper
+import base.keyboard_helper as keyboard_helper
 
 class AppController:
     COMMAND_PAUSE = 0
@@ -11,7 +11,7 @@ class AppController:
         self.isAlive = True
         self.commands = queue.Queue()
         self.vms = []
-        base.keyboard_helper.setupKeyboard(self)
+        keyboard_helper.setupKeyboard(self)
 
     def addVM(self, vm_name):
         self.vms.append(VMController(vm_name))

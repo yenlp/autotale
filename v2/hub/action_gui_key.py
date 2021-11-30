@@ -1,5 +1,5 @@
 from hub.action_gui import ActionGui
-import base.keyboard_helper
+import base.keyboard_helper as keyboard_helper
 
 class ActionGuiKey (ActionGui):
     def __init__(self) -> None:
@@ -10,4 +10,4 @@ class ActionGuiKey (ActionGui):
         self.key = key
 
     def doAction(self):
-        base.keyboard_helper.pressKey(self.key, 0.1, 'ActionGuiKey::doAction')
+        keyboard_helper.pressKey(self.key, 0.1, 'ActionGuiKey::doAction')
