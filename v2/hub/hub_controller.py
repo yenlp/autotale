@@ -20,6 +20,7 @@ class HubController:
         healthbar = HealthBar(441, 695, 610)
         healthbar.setColor(Color(170, 10, 10))
         healthbar.setPercent(settings.percentHP)
+        healthbar.setAutoAdjust(0.5, 0.6)
 
         staminaBar = StaminaBar(420, 695, 625)
         staminaBar.setColor(Color(90, 210, 10))

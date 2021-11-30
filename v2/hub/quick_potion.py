@@ -2,6 +2,7 @@ import pyautogui
 import time
 from base.color import Color
 from hub.action_gui import ActionGui
+from hub.inventory import Inventory
 import base.keyboard_helper as keyboard_helper
 
 class QuickPotion (ActionGui):
@@ -43,15 +44,16 @@ class QuickPotion (ActionGui):
         if self.isPotionInventoryEmpty(screenshot):
             self.teleport()
         else:
-            pyautogui.moveTo(pos[0], pos[1], 0.1)
-            time.sleep(0.15)
+            t = Inventory.ANIMATION_TIME / 2
+            pyautogui.moveTo(pos[0], pos[1], t)
+            time.sleep(t + 0.1)
             keyboard_helper.keyDown('shift')
             keyboard_helper.keyDown(self.key)
             #time.sleep(0.1)
             keyboard_helper.keyUp(self.key)
             keyboard_helper.keyUp('shift')
-            time.sleep(0.1)
-            pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.15)
+            time.sleep(0.05)
+            pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.1)
             keyboard_helper.pressKey('v', 0.1, 'Close inventory')
             self.isAddingMore = False
 
@@ -61,8 +63,9 @@ class QuickPotion (ActionGui):
     def teleport(self):
         pos_core = self.inventoryPosition[0], self.inventoryPosition[1] + 20
         pos = self.vm.convertGameToScreen(pos_core)
-        pyautogui.moveTo(pos[0], pos[1], 0.1)
-        time.sleep(0.15)
+        t = Inventory.ANIMATION_TIME / 2
+        pyautogui.moveTo(pos[0], pos[1], t)
+        time.sleep(t + 0.1)
         pyautogui.mouseDown(button = pyautogui.RIGHT)
         pyautogui.mouseUp(button = pyautogui.RIGHT)
         self.vm.home()
