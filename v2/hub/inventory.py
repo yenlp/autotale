@@ -1,3 +1,4 @@
+import time
 import base.keyboard_helper as keyboard_helper
 
 class Inventory:
@@ -30,17 +31,20 @@ class Inventory:
                 return False
         return True
 
+    def getInteractable(self):
+        return self.isInteractable
+
     def isOpen(self):
         return self.isOpened
 
     def open(self):
         if not self.isInteractable:
             return
-        if self.isOpened:
+        if self.isOpened:            
             return
         self.isInteractable = False
         self.time = Inventory.ANIMATION_TIME
-        keyboard_helper.pressKey('v', 0.1, 'Open Inventory')
+        keyboard_helper.pressKey('v', 0.1, 'Open Inventory' + str(time.time()))
 
     def close(self):
         if not self.isInteractable:
@@ -49,4 +53,4 @@ class Inventory:
             return
         self.isInteractable = False
         self.time = Inventory.ANIMATION_TIME
-        keyboard_helper.pressKey('v', 0.1, 'Close Inventory')
+        keyboard_helper.pressKey('v', 0.1, 'Close Inventory'+ str(time.time()))

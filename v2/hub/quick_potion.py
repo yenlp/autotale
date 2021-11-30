@@ -54,8 +54,15 @@ class QuickPotion (ActionGui):
             keyboard_helper.keyUp('shift')
             time.sleep(0.05)
             pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.1)
-            keyboard_helper.pressKey('v', 0.1, 'Close inventory')
-            self.isAddingMore = False
+            #keyboard_helper.pressKey('v', 0.1, 'Close inventory')
+            self.isAddingCompleted = True
+
+    def isCompleted(self):
+        return self.isAddingCompleted
+
+    def reset(self):
+        self.isAddingMore = False
+        self.isAddingCompleted = False
 
     def isPotionInventoryEmpty(self, screenshot):
         return False

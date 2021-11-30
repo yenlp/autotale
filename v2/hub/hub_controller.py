@@ -73,6 +73,7 @@ class HubController:
 
     def onFrameUpdate(self, deltaTime, screenshot):
         #print('HubController::onFrameUpdate')
+        self.inventory.onFrameUpdate(deltaTime, screenshot)
         for bar in self.potionBars:
             bar.onFrameUpdate(deltaTime, screenshot)
 
@@ -80,7 +81,6 @@ class HubController:
             potion.onFrameUpdate(deltaTime, screenshot)
         
         self.balancing.onFrameUpdate(deltaTime, screenshot)
-        self.inventory.onFrameUpdate(deltaTime, screenshot)
 
     def onFrameRender(self, screenshot):
         actionCount = 0
@@ -89,15 +89,27 @@ class HubController:
                 actionCount = actionCount + 1
                 bar.onFrameRender(screenshot)
                 break
+        if not self.inventory.getInteractable():
+            return
         if self.inventory.isOpen():
             for potion in self.quickPotions:
                 if potion.isRequired():
                     actionCount = actionCount + 1
                     potion.onFrameRender(screenshot)
-                    break
+                    return
+            isClosing = False
+            for potion in self.quickPotions:
+                if potion.isCompleted():
+                    isClosing = True
+                    self.inventory.close()
+                    potion.reset()
+
+            if isClosing:
+                return
         else:
             for potion in self.quickPotions:
                 if potion.isRequired():
+                    print('HUB open inventory')
                     actionCount = actionCount + 1
                     self.inventory.open()
                     break

@@ -1,4 +1,5 @@
 import math
+import time
 import pyautogui
 import settings
 from game_states.sub_state import SubState
@@ -31,11 +32,13 @@ class StateLooting (SubState):
             x = pos[0] + r * math.sin(radian)
             y = pos[1] + r * math.cos(radian)
             pos_mouse = x, y
-            pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
+            pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.1)
             pyautogui.mouseDown()
             pyautogui.mouseUp()
+            time.sleep(0.1)
         else:
             self.lootFilterActive = True
+            time.sleep(0.2)
             p = pyautogui.PAUSE
             pyautogui.PAUSE = 0
             keyboard_helper.pressKey('a', 0.05, 'Start Loot')
