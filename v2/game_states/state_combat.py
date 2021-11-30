@@ -10,19 +10,20 @@ class StateCombat (SubState):
     def __init__(self) -> None:
         print('Start Combat')
         super().__init__()
-        self.nextState = None
         self.lostEnemyDuration = 0
         self.radius = StateCombat.RADIUS_MIN
         self.angle = random.randrange(0, 360)
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
-        if self.time > settings.combatDuration:
+        if settings.isAutoLoot and self.time > settings.combatDuration:
             self.nextState = SubState.LOOT
             return
         if self.isOnEnemy(screenshot):
             self.lostEnemyDuration = 0
-            self.radius = StateCombat.RADIUS_MIN
+            self.radius = self.radius + 5
+            if self.radius > StateCombat.RADIUS_MAX:
+                self.radius = StateCombat.RADIUS_MIN
         else:
             self.lostEnemyDuration += deltaTime
             if self.lostEnemyDuration > 0.5:
@@ -40,6 +41,4 @@ class StateCombat (SubState):
         pos_mouse = x, y
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
 
-    def isCompleted(self):
-        return self.nextState != None
 

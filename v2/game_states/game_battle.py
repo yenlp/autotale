@@ -40,7 +40,7 @@ class GameBattle(GameState):
             return
         if not settings.isAutoCombat:
             return
-        if settings.isAutoRotate:
+        if settings.isAutoRotate and self.state.isRotateAllowed:
             key = 'right'
             keyboard_helper.keyDown(key, 0.15)
             keyboard_helper.keyUp(key)

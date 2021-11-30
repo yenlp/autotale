@@ -75,21 +75,21 @@ class HubController:
         self.inventory.onFrameUpdate(deltaTime, screenshot)
 
     def onFrameRender(self, screenshot):
-        #print('HubController::onFrameRender')
         for bar in self.potionBars:
-            bar.onFrameRender(screenshot)
-        #isRequired = False
-        if not self.inventory.isOpen():
-            for potion in self.quickPotions:
-                if potion.isRequired():
-                    #isRequired = True
-                    self.inventory.open()
-                    break
+            if bar.isRequired():
+                bar.onFrameRender(screenshot)
+                break
         if self.inventory.isOpen():
             for potion in self.quickPotions:
                 if potion.isRequired():
                     potion.onFrameRender(screenshot)
                     break
+        else:
+            for potion in self.quickPotions:
+                if potion.isRequired():
+                    self.inventory.open()
+                    break
+        
 
     def isPotting(self):
         for potion in self.quickPotions:

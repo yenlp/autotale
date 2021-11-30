@@ -21,6 +21,7 @@ class SubState:
     def __init__(self) -> None:
         self.nextState = None
         self.time = 0
+        self.isRotateAllowed = True
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         pass

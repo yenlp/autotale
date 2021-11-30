@@ -1,5 +1,6 @@
 import random
 import pyautogui
+import math
 from game_states.sub_state import SubState
 import base.keyboard_helper as keyboard_helper
 
@@ -12,6 +13,9 @@ class StateFindEnemy (SubState):
         print('Find Enemy')
         super().__init__()
         self.state = StateFindEnemy.FINDING
+        self.isRotateAllowed = False
+        self.idx = -1
+        self.angle = 0, 180, 45, 225, 90, 270, 135, 315
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         result = {
@@ -44,10 +48,12 @@ class StateFindEnemy (SubState):
         pass
 
     def onFindingRender(self, deltaTime, screenshot, vm):
+        self.idx = (self.idx + 1) % len(self.angle)
+        radian = self.angle[self.idx] / 180 * math.pi
         pos = vm.getMiddleScreenPosition()
         r = 75
-        x = pos[0] + random.randrange(-r, r, 1)
-        y = pos[1] + random.randrange(-r, r, 1) * 0.7
+        x = pos[0] + r * math.sin(radian)
+        y = pos[1] + r * math.cos(radian)
         pyautogui.moveTo(x, y, 0.15)
         keyShift = 'shift'
         keyboard_helper.keyDown(keyShift, 0.15)

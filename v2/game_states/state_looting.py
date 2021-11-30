@@ -10,22 +10,26 @@ class StateLooting (SubState):
     def __init__(self) -> None:
         super().__init__()
         self.lootFilterActive = False
-        self.angle = 0
+        self.isRotateAllowed = False
+        self.idx = -1
+        self.angle = 0, 180, 45, 225, 90, 270, 135, 315
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
-        self.angle = self.angle + 30
-        if self.time > settings.lootDuration:
+        if self.idx >= len(self.angle):
             self.nextState = SubState.FIND_ENEMY
             keyboard_helper.pressKey('a', 0.05, 'Stop Loot')
 
     def onFrameRender(self, screenshot, vm):
         if self.lootFilterActive:
+            self.idx = self.idx + 1
+            if self.idx >= len(self.angle):
+                return
             r = 30
-            radian = self.angle / 180 * math.pi
+            radian = self.angle[self.idx] / 180 * math.pi
             pos = vm.getMiddleScreenPosition()
             x = pos[0] + r * math.sin(radian)
-            y = pos[1] + r * math.cos(radian) * 0.7
+            y = pos[1] + r * math.cos(radian)
             pos_mouse = x, y
             pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
             pyautogui.mouseDown()
