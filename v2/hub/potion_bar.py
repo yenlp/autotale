@@ -11,6 +11,7 @@ class PotionBar (ActionGuiKey):
         self.yLow = yLow
         self.yHigh = yHigh
         self.color = Color.BLACK()
+        self.pottingCount = 0
         self.percent = 1.0
         self.setPercent(1.0)
 
@@ -23,6 +24,9 @@ class PotionBar (ActionGuiKey):
     def setPercent(self, percent):
         self.percent = percent
         self.calculate()
+
+    def getCount(self):
+        return self.pottingCount
 
     def calculate(self):
         self.triggerPosition = self.x, self.lerp(self.yLow, self.yHigh, self.percent)
@@ -38,6 +42,9 @@ class PotionBar (ActionGuiKey):
             self.isActionRequired = True
 
     def onFrameRender(self, screenshot):
-        #print('PotionBar::onFrameRender')
         if self.isActionRequired:
-            self.doAction(screenshot)
+            self.potting(screenshot)
+
+    def potting(self, screenshot):
+        self.pottingCount = self.pottingCount + 1
+        self.doAction(screenshot)

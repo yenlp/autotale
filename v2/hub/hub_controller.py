@@ -7,6 +7,7 @@ from hub.quick_mana import QuickMana
 from hub.quick_stamina import QuickStamina
 from hub.stamina_bar import StaminaBar
 from hub.inventory import Inventory
+from hub.potion_balancing import PotionBalancing
 import base.keyboard_helper
 import settings
 
@@ -32,6 +33,11 @@ class HubController:
         self.potionBars.append(healthbar)
         self.potionBars.append(staminaBar)
         self.potionBars.append(manaBar)
+
+        self.balancing = PotionBalancing()
+        self.balancing.add(healthbar)
+        self.balancing.add(staminaBar)
+        self.balancing.add(manaBar)
 
         quickStamina = QuickStamina(620, 688, Color(0, 30, 0))
         quickStamina.setKey('1')
@@ -71,24 +77,32 @@ class HubController:
 
         for potion in self.quickPotions:
             potion.onFrameUpdate(deltaTime, screenshot)
-
+        
+        self.balancing.onFrameUpdate(deltaTime, screenshot)
         self.inventory.onFrameUpdate(deltaTime, screenshot)
 
     def onFrameRender(self, screenshot):
+        actionCount = 0
         for bar in self.potionBars:
             if bar.isRequired():
+                actionCount = actionCount + 1
                 bar.onFrameRender(screenshot)
                 break
         if self.inventory.isOpen():
             for potion in self.quickPotions:
                 if potion.isRequired():
+                    actionCount = actionCount + 1
                     potion.onFrameRender(screenshot)
                     break
         else:
             for potion in self.quickPotions:
                 if potion.isRequired():
+                    actionCount = actionCount + 1
                     self.inventory.open()
                     break
+        if actionCount == 0:
+            if self.balancing.onFrameRender(screenshot):
+                return
         
 
     def isPotting(self):
