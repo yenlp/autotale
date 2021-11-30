@@ -9,5 +9,5 @@ class ActionGuiKey (ActionGui):
     def setActionKey(self, key):
         self.key = key
 
-    def doAction(self):
+    def doAction(self, screenshot):
         keyboard_helper.pressKey(self.key, 0.1, 'ActionGuiKey::doAction')

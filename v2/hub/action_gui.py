@@ -6,7 +6,7 @@ class ActionGui:
     def setVM(self, vm):
         self.vm = vm
 
-    def doAction(self):
+    def doAction(self, screenshot):
         pass
 
     def isRequired(self):

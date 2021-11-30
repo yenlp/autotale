@@ -3,6 +3,7 @@ import pygetwindow as gw
 import pyautogui
 from game_states.game_idle import GameIdle
 from game_states.game_battle import GameBattle
+from game_states.game_home import GameHome
 
 VM_WIDTH = 1024
 VM_HEIGHT = 705
@@ -67,6 +68,10 @@ class VMController:
 
     def battle(self):
         self.gameState = GameBattle()
+        self.gameState.setVM(self)
+
+    def home(self):
+        self.gameState = GameHome()
         self.gameState.setVM(self)
 
     def convertGameToScreen(self, position):

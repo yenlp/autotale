@@ -9,7 +9,7 @@ class StateFindEnemy (SubState):
     FOUND = 2
 
     def __init__(self) -> None:
-        print('find enemy')
+        print('Find Enemy')
         super().__init__()
         self.state = StateFindEnemy.FINDING
 

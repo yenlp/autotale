@@ -6,7 +6,7 @@ import base.keyboard_helper as keyboard_helper
 
 class QuickPotion (ActionGui):
     def __init__(self, x, y, color):
-        print('QuickPotion')
+        #print('QuickPotion')
         super().__init__()
         self.position = x, y
         self.color = color
@@ -28,26 +28,41 @@ class QuickPotion (ActionGui):
     def onFrameRender(self, screenshot):
         #print('PotionBar::onFrameRender')
         if self.isActionRequired:
-            self.doAction()
+            self.doAction(screenshot)
 
-    def doAction(self):
-        self.addMore()
+    def doAction(self, screenshot):
+        self.addMore(screenshot)
 
-    def addMore(self):
+    def addMore(self, screenshot):
         if self.isAddingMore:
             return
         print('QuickPotion::addMore')
         self.isAddingMore = True
         self.lastMousePosition = pyautogui.position() 
         pos = self.vm.convertGameToScreen(self.inventoryPosition)
+        if self.isPotionInventoryEmpty():
+            self.teleport()
+        else:
+            pyautogui.moveTo(pos[0], pos[1], 0.1)
+            time.sleep(0.15)
+            keyboard_helper.keyDown('shift')
+            keyboard_helper.keyDown(self.key)
+            #time.sleep(0.1)
+            keyboard_helper.keyUp(self.key)
+            keyboard_helper.keyUp('shift')
+            time.sleep(0.1)
+            pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.15)
+            keyboard_helper.pressKey('v', 0.1, 'close inventory')
+            self.isAddingMore = False
+
+    def isPotionInventoryEmpty(self):
+        return True
+
+    def teleport(self):
+        pos_core = self.inventoryPosition[0], self.inventoryPosition[1] + 20
+        pos = self.vm.convertGameToScreen(pos_core)
         pyautogui.moveTo(pos[0], pos[1], 0.1)
-        time.sleep(0.1)
-        keyboard_helper.keyDown('shift')
-        keyboard_helper.keyDown(self.key)
-        time.sleep(0.1)
-        keyboard_helper.keyUp(self.key)
-        keyboard_helper.keyUp('shift')
-        time.sleep(0.1)
-        pyautogui.moveTo(self.lastMousePosition[0], self.lastMousePosition[1], 0.2)
-        keyboard_helper.pressKey('v', 0.1, 'close inventory')
-        self.isAddingMore = False
+        time.sleep(0.15)
+        pyautogui.mouseDown(button = pyautogui.RIGHT)
+        pyautogui.mouseUp(button = pyautogui.RIGHT)
+        self.vm.home()

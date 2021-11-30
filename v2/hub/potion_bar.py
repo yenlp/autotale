@@ -5,7 +5,7 @@ from hub.action_gui_key import ActionGuiKey
 
 class PotionBar (ActionGuiKey):
     def __init__(self, x, yLow, yHigh):
-        print('PotionBar')
+        #print('PotionBar')
         super().__init__()
         self.x = x
         self.yLow = yLow
@@ -40,4 +40,4 @@ class PotionBar (ActionGuiKey):
     def onFrameRender(self, screenshot):
         #print('PotionBar::onFrameRender')
         if self.isActionRequired:
-            self.doAction()
+            self.doAction(screenshot)

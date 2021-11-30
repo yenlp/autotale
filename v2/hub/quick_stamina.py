@@ -2,7 +2,7 @@ from hub.quick_potion import QuickPotion
 
 class QuickStamina(QuickPotion):
     def __init__(self, x, y, color):
-        print('QuickStamina')
+        #print('QuickStamina')
         super().__init__(x, y, color)
 
     def onFrameUpdate(self, deltaTime, screenshot):

@@ -27,6 +27,8 @@ class GameBattle(GameState):
         super().onFrameUpdate(deltaTime, screenshot)
         if self.hubController.isPotting():
             return
+        if not settings.isAutoCombat:
+            return
         self.state.onFrameUpdate(deltaTime, screenshot, self.vm)
         if self.state.isCompleted():
             nextState = self.state.getNextStateId()
@@ -35,6 +37,8 @@ class GameBattle(GameState):
     def onFrameRender(self, screenshot):
         super().onFrameRender(screenshot)
         if self.hubController.isPotting():
+            return
+        if not settings.isAutoCombat:
             return
         if settings.isAutoRotate:
             key = 'left'
