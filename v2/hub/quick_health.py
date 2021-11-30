@@ -8,3 +8,7 @@ class QuickHealth (QuickPotion):
     def onFrameUpdate (self, deltaTime, screenshot):
         color = screenshot.getpixel(self.position)
         self.isActionRequired = self.color.red() > color[0]
+
+    def isPotionInventoryEmpty(self, screenshot):
+        color = screenshot.getpixel(self.inventoryPosition)
+        return self.color.red() > color[0]

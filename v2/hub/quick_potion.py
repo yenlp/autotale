@@ -40,7 +40,7 @@ class QuickPotion (ActionGui):
         self.isAddingMore = True
         self.lastMousePosition = pyautogui.position() 
         pos = self.vm.convertGameToScreen(self.inventoryPosition)
-        if self.isPotionInventoryEmpty():
+        if self.isPotionInventoryEmpty(screenshot):
             self.teleport()
         else:
             pyautogui.moveTo(pos[0], pos[1], 0.1)
@@ -55,8 +55,8 @@ class QuickPotion (ActionGui):
             keyboard_helper.pressKey('v', 0.1, 'close inventory')
             self.isAddingMore = False
 
-    def isPotionInventoryEmpty(self):
-        return True
+    def isPotionInventoryEmpty(self, screenshot):
+        return False
 
     def teleport(self):
         pos_core = self.inventoryPosition[0], self.inventoryPosition[1] + 20
