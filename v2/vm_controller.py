@@ -55,7 +55,7 @@ class VMController:
         self.x = x_mid - VM_WIDTH / 2
         self.y = y + self.marginTop
         self.height = h - self.marginBot - self.marginTop
-        self.img = self.screenUtils.captureAndSave('screenshots/screenshot_update.png', region=(self.x, self.y, self.width, self.height))
+        self.img = self.screenUtils.capture(region=(self.x, self.y, self.width, self.height))
         self.gameState.onFrameUpdate(deltaTime, self.img)
 
     def onFrameRender(self):
