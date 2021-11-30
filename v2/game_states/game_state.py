@@ -9,15 +9,17 @@ class GameState:
 
     def setVM(self, vm):
         self.vm = vm
-        self.hubController.setVM(vm)
+        if self.hubController != None:
+            self.hubController.setVM(vm)
 
     def onPercentChanged(self):
-        self.hubController.onPercentChanged()
+        if self.hubController != None:
+            self.hubController.onPercentChanged()
 
     def onFrameUpdate(self, deltaTime, screenshot):
-        #print('GameState::onFrameUpdate')
-        self.hubController.onFrameUpdate(deltaTime, screenshot)
+        if self.hubController != None:
+            self.hubController.onFrameUpdate(deltaTime, screenshot)
 
     def onFrameRender(self, screenshot):
-        #print('GameState::onFrameRender')
-        self.hubController.onFrameRender(screenshot)
+        if self.hubController != None:
+            self.hubController.onFrameRender(screenshot)

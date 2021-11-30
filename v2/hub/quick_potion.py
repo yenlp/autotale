@@ -44,7 +44,7 @@ class QuickPotion (ActionGui):
         if self.isPotionInventoryEmpty(screenshot):
             self.teleport()
         else:
-            t = Inventory.ANIMATION_TIME / 2
+            t = 0.1
             pyautogui.moveTo(pos[0], pos[1], t)
             time.sleep(t + 0.1)
             keyboard_helper.keyDown('shift')
@@ -70,7 +70,7 @@ class QuickPotion (ActionGui):
     def teleport(self):
         pos_core = self.inventoryPosition[0], self.inventoryPosition[1] + 20
         pos = self.vm.convertGameToScreen(pos_core)
-        t = Inventory.ANIMATION_TIME / 2
+        t = 0.1
         pyautogui.moveTo(pos[0], pos[1], t)
         time.sleep(t + 0.1)
         pyautogui.mouseDown(button = pyautogui.RIGHT)

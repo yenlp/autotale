@@ -2,6 +2,7 @@ from screen_utils import ScreenUtils
 import pygetwindow as gw
 import pyautogui
 from game_states.game_idle import GameIdle
+from game_states.game_init import GameInit
 from game_states.game_battle import GameBattle
 from game_states.game_home import GameHome
 
@@ -18,7 +19,7 @@ class VMController:
         self.marginTop = 0
         self.marginBot = 0
         self.screenUtils = ScreenUtils()
-        self.gameState = GameIdle()
+        self.gameState = GameInit()
         self.gameState.setVM(self)
         self.img = self.detectWindow()
         self.activate()

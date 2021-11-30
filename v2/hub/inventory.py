@@ -44,7 +44,7 @@ class Inventory:
             return
         self.isInteractable = False
         self.time = Inventory.ANIMATION_TIME
-        keyboard_helper.pressKey('v', 0.1, 'Open Inventory' + str(time.time()))
+        keyboard_helper.pressKey('v', 0.1, 'Open Inventory ' + str(time.time()))
 
     def close(self):
         if not self.isInteractable:
@@ -53,4 +53,4 @@ class Inventory:
             return
         self.isInteractable = False
         self.time = Inventory.ANIMATION_TIME
-        keyboard_helper.pressKey('v', 0.1, 'Close Inventory'+ str(time.time()))
+        keyboard_helper.pressKey('v', 0.1, 'Close Inventory '+ str(time.time()))
