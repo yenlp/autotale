@@ -32,7 +32,7 @@ class StateCombat (SubState):
                     self.radius = self.radius + 10
     
     def onFrameRender(self, screenshot, vm):
-        self.angle = (self.angle + random.randrange(10, 30)) % 360
+        self.angle = (self.angle + random.randrange(30, 45)) % 360
         radian = self.angle / 180 * math.pi
         pos = vm.getMiddleScreenPosition()
         x = pos[0] + self.radius * math.sin(radian)

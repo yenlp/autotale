@@ -2,7 +2,7 @@ from hub.hub_controller import HubController
 
 class GameState:
     def __init__(self):
-        print('GameState')
+        #print('GameState')
         self.isRunning = True
         self.vm = None
         self.hubController = HubController()
@@ -10,6 +10,9 @@ class GameState:
     def setVM(self, vm):
         self.vm = vm
         self.hubController.setVM(vm)
+
+    def onPercentChanged(self):
+        self.hubController.onPercentChanged()
 
     def onFrameUpdate(self, deltaTime, screenshot):
         #print('GameState::onFrameUpdate')

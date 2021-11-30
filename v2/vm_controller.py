@@ -74,6 +74,9 @@ class VMController:
         self.gameState = GameHome()
         self.gameState.setVM(self)
 
+    def onPercentChanged(self):
+        self.gameState.onPercentChanged()
+
     def convertGameToScreen(self, position):
         x = self.x + position[0]
         y = self.y + position[1]

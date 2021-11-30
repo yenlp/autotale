@@ -5,9 +5,10 @@ class ActionGuiKey (ActionGui):
     def __init__(self) -> None:
         super().__init__()
         self.key = 'none'
+        self.message = ''
 
     def setActionKey(self, key):
         self.key = key
 
     def doAction(self, screenshot):
-        keyboard_helper.pressKey(self.key, 0.1, 'ActionGuiKey::doAction')
+        keyboard_helper.pressKey(self.key, 0.1, self.message)

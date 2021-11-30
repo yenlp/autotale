@@ -6,6 +6,7 @@ import base.keyboard_helper as keyboard_helper
 class AppController:
     COMMAND_PAUSE = 0
     COMMAND_BATTLE = 1
+    COMMAND_PERCENT_CHANGE = 2
     def __init__(self):
         print('AppController')
         self.isAlive = True
@@ -25,6 +26,9 @@ class AppController:
     def onBattleCommand(self):
         self.commands.put(AppController.COMMAND_BATTLE)
 
+    def onPercentChanged(self):
+        self.commands.put(AppController.COMMAND_PERCENT_CHANGE)
+
     # update virtual machines 
     # main update function
     def onFrameUpdate(self, deltaTime):
@@ -37,6 +41,9 @@ class AppController:
                 elif comm == AppController.COMMAND_BATTLE:
                     for vm in self.vms:
                         vm.battle()
+                elif comm == AppController.COMMAND_PERCENT_CHANGE:
+                    for vm in self.vms:
+                        vm.onPercentChanged()
 
         for vm in self.vms:
             vm.onFrameUpdate(deltaTime)

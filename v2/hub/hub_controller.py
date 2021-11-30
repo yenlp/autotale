@@ -8,6 +8,7 @@ from hub.quick_stamina import QuickStamina
 from hub.stamina_bar import StaminaBar
 from hub.inventory import Inventory
 import base.keyboard_helper
+import settings
 
 class HubController:
     def __init__(self):
@@ -17,15 +18,15 @@ class HubController:
 
         healthbar = HealthBar(441, 695, 610)
         healthbar.setColor(Color(170, 10, 10))
-        healthbar.setPercent(0.5)
+        healthbar.setPercent(settings.percentHP)
 
         staminaBar = StaminaBar(420, 695, 625)
         staminaBar.setColor(Color(80, 210, 10))
-        staminaBar.setPercent(0.2)
+        staminaBar.setPercent(settings.percentSP)
 
         manaBar = ManaBar(588, 695, 610)
         manaBar.setColor(Color(10, 10, 135))
-        manaBar.setPercent(0.3)
+        manaBar.setPercent(settings.percentMP)
 
         self.potionBars = []
         self.potionBars.append(healthbar)
@@ -58,6 +59,11 @@ class HubController:
         for potion in self.quickPotions:
             potion.setVM(vm)
 
+    def onPercentChanged(self):
+        self.potionBars[0].setPercent(settings.percentHP)
+        self.potionBars[1].setPercent(settings.percentSP)
+        self.potionBars[2].setPercent(settings.percentMP)
+
     def onFrameUpdate(self, deltaTime, screenshot):
         #print('HubController::onFrameUpdate')
         for bar in self.potionBars:
@@ -72,11 +78,11 @@ class HubController:
         #print('HubController::onFrameRender')
         for bar in self.potionBars:
             bar.onFrameRender(screenshot)
-        isRequired = False
+        #isRequired = False
         if not self.inventory.isOpen():
             for potion in self.quickPotions:
                 if potion.isRequired():
-                    isRequired = True
+                    #isRequired = True
                     self.inventory.open()
                     break
         if self.inventory.isOpen():

@@ -66,3 +66,4 @@ class QuickPotion (ActionGui):
         pyautogui.mouseDown(button = pyautogui.RIGHT)
         pyautogui.mouseUp(button = pyautogui.RIGHT)
         self.vm.home()
+        keyboard_helper.pressKey('v', 0.1, 'close inventory')
