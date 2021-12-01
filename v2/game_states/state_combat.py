@@ -33,7 +33,7 @@ class StateCombat (SubState):
                 print('Lost Target')
                 self.nextState = SubState.LOOT
             else:
-                self.radius = base.math.lerp(self.radius, 0, 0.075 * deltaTime)
+                self.radius = base.math.lerp(self.radius, 0, 0.02 * deltaTime)
     
     def onFrameRender(self, screenshot, vm):
         self.angle = (self.angle + random.randrange(30, 45)) % 360
