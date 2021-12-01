@@ -1,4 +1,4 @@
-FPS=5
+FPS=10
 isAutoCombat = False
 isAutoLoot = False
 isAutoRotate = False
