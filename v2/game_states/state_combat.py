@@ -7,7 +7,7 @@ from game_states.sub_state import SubState
 
 class StateCombat (SubState):
     POS_ATTACK_BUTTONS = ((460, 650), (455, 657), (453, 666))
-    RADIUS_MIN = 200
+    RADIUS_MIN = 50
     RADIUS_MAX = 400
     def __init__(self) -> None:
         print('Start Combat')
@@ -23,6 +23,7 @@ class StateCombat (SubState):
             self.nextState = SubState.LOOT
             return
         if self.isOnEnemy(screenshot):
+            print('onEnemy')
             #self.lostEnemyDuration = 0
             self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MAX, 0.9)
             self.radius = min(self.radius, StateCombat.RADIUS_MAX)
@@ -32,7 +33,7 @@ class StateCombat (SubState):
                 print('Lost Target')
                 self.nextState = SubState.LOOT
             else:
-                self.radius = base.math.lerp(self.radius, 0, 0.01 * deltaTime)
+                self.radius = base.math.lerp(self.radius, 0, 0.1 * deltaTime)
     
     def onFrameRender(self, screenshot, vm):
         self.angle = (self.angle + random.randrange(30, 45)) % 360
@@ -44,11 +45,15 @@ class StateCombat (SubState):
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
 
     def isOnEnemy(self, screenshot):
+        diff = 10
         for pos in StateCombat.POS_ATTACK_BUTTONS:
-            color = screenshot.getpixel(pos)
-            if color[2] > 100:
-                return True
-
-        return False
+            pix = screenshot.getpixel(pos)
+            if abs(pix[0] - pix[1]) > diff:
+                return False
+            if abs(pix[1] - pix[2]) > diff:
+                return False
+            if abs(pix[2] - pix[0]) > diff:
+                return False
+        return True
 
 
