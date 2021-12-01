@@ -9,7 +9,7 @@ class SubState:
     
     def __init__(self) -> None:
         time.sleep(0.2)
-        keyboard_helper.pressKey('a')
+        #keyboard_helper.pressKey('a')
         self.nextState = None
         self.time = 0
         self.isRotateAllowed = True
