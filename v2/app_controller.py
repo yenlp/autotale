@@ -1,5 +1,6 @@
 import time
 import queue
+import settings
 from vm_controller import VMController
 import base.keyboard_helper as keyboard_helper
 
@@ -55,8 +56,7 @@ class AppController:
             vm.onFrameRender()
 
     def run(self):
-        FPS = 10
-        FRAME_RATE = 1.0 / FPS
+        FRAME_RATE = 1.0 / settings.FPS
         current_time = time.time()
         last_time = current_time
         frame_count = 0
