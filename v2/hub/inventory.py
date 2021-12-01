@@ -6,8 +6,8 @@ class Inventory:
     def __init__(self) -> None:
         self.vm = None
         self.isOpened = False
-        self.isInteractable = True
-        self.time = 0
+        self.isInteractable = False
+        self.time = Inventory.ANIMATION_TIME
 
     def setVM(self, vm):
         self.vm = vm
@@ -18,16 +18,21 @@ class Inventory:
             if self.time <= 0:
                 self.isOpened = self.checkInventory(screenshot)
                 self.isInteractable = True
+                time.sleep(0.2)
         elif self.isInteractable:
             self.isOpened = self.checkInventory(screenshot)
         else:
             self.isOpened = False
 
     def checkInventory(self, screenshot):
-        y = 590
-        for x in range(420, 510, 20):
+        x = 116
+        for y in range(550, 630, 10):
             pix = screenshot.getpixel((x, y))
-            if pix[0] < 100 or pix[2] > 100:
+            if abs(pix[0] - pix[1]) > 2:
+                return False
+            if abs(pix[1] - pix[2]) > 2:
+                return False
+            if abs(pix[2] - pix[0]) > 2:
                 return False
         return True
 

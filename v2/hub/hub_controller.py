@@ -89,34 +89,29 @@ class HubController:
                 actionCount = actionCount + 1
                 bar.onFrameRender(screenshot)
                 break
+        
         if not self.inventory.getInteractable():
             return
-        if self.inventory.isOpen():
-            for potion in self.quickPotions:
-                if potion.isRequired():
-                    actionCount = actionCount + 1
-                    potion.onFrameRender(screenshot)
-                    return
-            isClosing = False
-            for potion in self.quickPotions:
-                if potion.isCompleted():
-                    isClosing = True
-                    self.inventory.close()
-                    potion.reset()
 
-            if isClosing:
+        for potion in self.quickPotions:
+            if potion.isCompleted():
+                potion.reset()
+                if self.inventory.isOpen():
+                    print('HUB closing inventory')
+                    self.inventory.close()
                 return
-        else:
-            for potion in self.quickPotions:
-                if potion.isRequired():
-                    print('HUB open inventory')
-                    actionCount = actionCount + 1
+
+        for potion in self.quickPotions:
+            if potion.isRequired():
+                if not self.inventory.isOpen():
+                    print('HUB do add more')
                     self.inventory.open()
-                    break
-        if actionCount == 0:
-            if self.balancing.onFrameRender(screenshot):
+                else:
+                    potion.onFrameRender(screenshot)
                 return
-        
+
+        self.balancing.onFrameRender(screenshot)
+
 
     def isPotting(self):
         if not self.inventory.getInteractable():
