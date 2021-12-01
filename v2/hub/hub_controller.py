@@ -119,7 +119,7 @@ class HubController:
         
 
     def isPotting(self):
-        if not self.inventory.isInteractable():
+        if not self.inventory.getInteractable():
             return True
         for potion in self.quickPotions:
             if potion.isRequired():
