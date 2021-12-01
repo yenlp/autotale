@@ -36,13 +36,13 @@ class StateFindEnemy (SubState):
 
     def onConfirmingUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
-        if self.time >= 0.5:
+        if self.time > 0.7:
+            self.state = StateFindEnemy.FINDING
+            self.time = 0.0
+        elif self.time >= 0.4:
             if self.isOnEnemy(screenshot):
                 self.state = StateFindEnemy.FOUND
                 self.nextState = SubState.COMBAT
-            else:
-                self.state = StateFindEnemy.FINDING
-            self.time = 0.0
 
     def onFoundUpdate(self, deltaTime, screenshot, vm):
         pass
