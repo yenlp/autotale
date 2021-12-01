@@ -97,20 +97,20 @@ class HubController:
             if potion.isCompleted():
                 potion.reset()
                 if self.inventory.isOpen():
-                    print('HUB closing inventory')
+                    #print('HUB closing inventory')
                     self.inventory.close()
                 return
 
         for potion in self.quickPotions:
             if potion.isRequired():
                 if not self.inventory.isOpen():
-                    print('HUB do add more')
+                    #print('HUB do ad2221d more')
                     self.inventory.open()
                 else:
                     potion.onFrameRender(screenshot)
                 return
-
-        self.balancing.onFrameRender(screenshot)
+        if actionCount == 0:
+            self.balancing.onFrameRender(screenshot)
 
 
     def isPotting(self):
