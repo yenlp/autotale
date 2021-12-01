@@ -1,8 +1,10 @@
+import time
 from hub.hub_controller import HubController
 
 class GameState:
     def __init__(self):
         #print('GameState')
+        time.sleep(0.2)
         self.isRunning = True
         self.vm = None
         self.hubController = HubController()

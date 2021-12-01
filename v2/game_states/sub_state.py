@@ -1,4 +1,4 @@
-
+import time
 
 class SubState:
     IDLE = 0
@@ -7,6 +7,7 @@ class SubState:
     LOOT = 3
     
     def __init__(self) -> None:
+        time.sleep(0.2)
         self.nextState = None
         self.time = 0
         self.isRotateAllowed = True

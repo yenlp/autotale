@@ -9,5 +9,5 @@ class GameInit(GameState):
 
     def onFrameUpdate(self, deltaTime, screenshot):
         self.time += deltaTime
-        if self.time > 1:
+        if self.time > 0.5:
             self.vm.pause()
