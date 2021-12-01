@@ -9,6 +9,18 @@ class StateFindEnemy (SubState):
     CONFIRMING = 1
     FOUND = 2
 
+    POS_TOP = 485, 650
+    COLOR_TOP = 80, 64, 41
+
+    POS_BOTTOM = 485, 688
+    COLOR_BOTTOM= 32, 16, 3
+
+    POS_LEFT = 465, 668
+    COLOR_LEFT = 51, 35, 17
+
+    POS_RIGHT = 503, 668
+    COLOR_RIGHT = 55, 43, 35
+
     def __init__(self) -> None:
         print('Find Enemy')
         super().__init__()
@@ -36,13 +48,13 @@ class StateFindEnemy (SubState):
 
     def onConfirmingUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
-        if self.time > 0.7:
-            self.state = StateFindEnemy.FINDING
-            self.time = 0.0
-        elif self.time >= 0.4:
+        if self.time >= 0.5:
             if self.isOnEnemy(screenshot):
                 self.state = StateFindEnemy.FOUND
                 self.nextState = SubState.COMBAT
+            else:
+                self.state = StateFindEnemy.FINDING
+            self.time = 0.0
 
     def onFoundUpdate(self, deltaTime, screenshot, vm):
         pass
@@ -69,3 +81,26 @@ class StateFindEnemy (SubState):
 
     def onFoundRender(self, deltaTime, screenshot, vm):
         pass
+
+    def isOnEnemy(self, screenshot):
+        pix = screenshot.getpixel(StateFindEnemy.POS_TOP)
+        for i in 0,1,2:
+            if abs(pix[i] - StateFindEnemy.COLOR_TOP[i]) > 50:
+                return True
+        
+        pix = screenshot.getpixel(StateFindEnemy.POS_BOTTOM)
+        for i in 0,1,2:
+            if abs(pix[i] - StateFindEnemy.COLOR_BOTTOM[i]) > 50:
+                return True
+
+        pix = screenshot.getpixel(StateFindEnemy.POS_LEFT)
+        for i in 0,1,2:
+            if abs(pix[i] - StateFindEnemy.COLOR_LEFT[i]) > 50:
+                return True
+
+        pix = screenshot.getpixel(StateFindEnemy.POS_RIGHT)
+        for i in 0,1,2:
+            if abs(pix[i] - StateFindEnemy.COLOR_RIGHT[i]) > 50:
+                return True
+
+        return False

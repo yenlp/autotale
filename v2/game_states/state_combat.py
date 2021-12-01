@@ -5,6 +5,7 @@ import settings
 from game_states.sub_state import SubState
 
 class StateCombat (SubState):
+    POS_ATTACK_BUTTONS = ((460, 650), (455, 657), (453, 666))
     RADIUS_MIN = 200
     RADIUS_MAX = 400
     def __init__(self) -> None:
@@ -40,5 +41,13 @@ class StateCombat (SubState):
         y = pos[1] + self.radius * math.cos(radian) * 0.7
         pos_mouse = x, y
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
+
+    def isOnEnemy(self, screenshot):
+        for pos in StateCombat.POS_ATTACK_BUTTONS:
+            color = screenshot.getpixel(pos)
+            if color[2] > 100:
+                return True
+
+        return False
 
 
