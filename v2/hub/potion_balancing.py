@@ -20,6 +20,7 @@ class PotionBalancing:
             diff = potion0.getCount() - potion1.getCount()
             if diff > 3:
                 if random.randint(0, 100) + diff > 50:
+                    print('Balancing')
                     potion1.potting(screenshot)
                     return True
         return False
