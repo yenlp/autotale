@@ -33,10 +33,10 @@ class StateLooting (SubState):
             y = pos[1] + r * math.cos(radian)
             pos_mouse = x, y
             pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.1)
-            time.sleep(0.1)
+            time.sleep(0.2)
             pyautogui.mouseDown()
             pyautogui.mouseUp()
-            time.sleep(0.05)
+            time.sleep(0.2)
         else:
             self.lootFilterActive = True
             time.sleep(0.2)
