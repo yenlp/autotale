@@ -13,7 +13,7 @@ class StateCombat (SubState):
         print('Start Combat')
         super().__init__()
         #self.lostEnemyDuration = 0
-        self.radius = StateCombat.RADIUS_MIN
+        self.radius = (StateCombat.RADIUS_MAX + StateCombat.RADIUS_MIN) / 2
         self.angle = random.randrange(0, 360)
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
@@ -24,14 +24,15 @@ class StateCombat (SubState):
             return
         if self.isOnEnemy(screenshot):
             #self.lostEnemyDuration = 0
-            self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MIN, 0.04)
+            self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MAX, 0.9)
+            self.radius = min(self.radius, StateCombat.RADIUS_MAX)
         else:
             #self.lostEnemyDuration += deltaTime
-            if self.radius > StateCombat.RADIUS_MAX * 0.8:
+            if self.radius < StateCombat.RADIUS_MIN:
                 print('Lost Target')
                 self.nextState = SubState.LOOT
             else:
-                self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MAX, 0.02)
+                self.radius = base.math.lerp(self.radius, 0, 0.01 * deltaTime)
     
     def onFrameRender(self, screenshot, vm):
         self.angle = (self.angle + random.randrange(30, 45)) % 360
