@@ -1,5 +1,4 @@
-import math
-import random
+import time
 from base.color import Color
 from hub.action_gui_key import ActionGuiKey
 import settings
@@ -103,6 +102,7 @@ class PotionBar (ActionGuiKey):
     def potting(self, screenshot):
         self.pottingCount = self.pottingCount + 1
         self.doAction(screenshot)
+        time.sleep(0.1)
 
     def isColorMatched(self, color):
         return self.color.isEqual(color, 40)
