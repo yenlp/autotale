@@ -27,7 +27,8 @@ class StateCombat (SubState):
                 self.radius = StateCombat.RADIUS_MIN
         else:
             self.lostEnemyDuration += deltaTime
-            if self.lostEnemyDuration > 1:
+            if self.lostEnemyDuration > 5:
+                self.lostEnemyDuration = 0
                 if self.radius > StateCombat.RADIUS_MAX:
                     print('Lost Target')
                     self.nextState = SubState.LOOT
