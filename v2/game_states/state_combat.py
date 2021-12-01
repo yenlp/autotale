@@ -27,11 +27,11 @@ class StateCombat (SubState):
                 self.radius = StateCombat.RADIUS_MIN
         else:
             self.lostEnemyDuration += deltaTime
-            if self.lostEnemyDuration > 0.5:
+            if self.lostEnemyDuration > 1:
                 if self.radius > StateCombat.RADIUS_MAX:
-                    self.nextState = SubState.FIND_ENEMY
+                    self.nextState = SubState.LOOT
                 else:
-                    self.radius = self.radius + 10
+                    self.radius = self.radius + 25
     
     def onFrameRender(self, screenshot, vm):
         self.angle = (self.angle + random.randrange(30, 45)) % 360
