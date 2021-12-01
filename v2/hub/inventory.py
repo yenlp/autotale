@@ -26,13 +26,14 @@ class Inventory:
 
     def checkInventory(self, screenshot):
         x = 116
+        diif = 5
         for y in range(550, 630, 10):
             pix = screenshot.getpixel((x, y))
-            if abs(pix[0] - pix[1]) > 2:
+            if abs(pix[0] - pix[1]) > diif:
                 return False
-            if abs(pix[1] - pix[2]) > 2:
+            if abs(pix[1] - pix[2]) > diif:
                 return False
-            if abs(pix[2] - pix[0]) > 2:
+            if abs(pix[2] - pix[0]) > diif:
                 return False
         return True
 
