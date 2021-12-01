@@ -1,4 +1,4 @@
-import random
+import time
 import pyautogui
 import math
 from game_states.sub_state import SubState
@@ -55,12 +55,12 @@ class StateFindEnemy (SubState):
         x = pos[0] + r * math.sin(radian)
         y = pos[1] + r * math.cos(radian)
         pyautogui.moveTo(x, y, 0.15)
+        time.sleep(0.1)
         keyShift = 'shift'
         keyboard_helper.keyDown(keyShift, 0.15)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
         keyboard_helper.keyUp(keyShift, 0.15)
-
         self.time = 0
         self.state = StateFindEnemy.CONFIRMING
 
