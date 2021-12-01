@@ -66,13 +66,13 @@ class StateFindEnemy (SubState):
         r = 75
         x = pos[0] + r * math.sin(radian)
         y = pos[1] + r * math.cos(radian)
-        pyautogui.moveTo(x, y, 0.15)
-        time.sleep(0.15)
+        pyautogui.moveTo(x, y, 0.1)
+        time.sleep(0.2)
         keyShift = 'shift'
         keyboard_helper.keyDown(keyShift, 0.1)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-        keyboard_helper.keyUp(keyShift, 0.15)
+        keyboard_helper.keyUp(keyShift, 0.2)
         self.time = 0
         self.state = StateFindEnemy.CONFIRMING
 
