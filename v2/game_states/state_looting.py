@@ -39,7 +39,7 @@ class StateLooting (SubState):
             time.sleep(0.4)
         else:
             self.lootFilterActive = True
-            time.sleep(0.2)
+            time.sleep(0.4)
             p = pyautogui.PAUSE
             pyautogui.PAUSE = 0
             keyboard_helper.pressKey('a', 0.05, 'Start Loot')

@@ -7,7 +7,7 @@ from game_states.sub_state import SubState
 
 class StateCombat (SubState):
     POS_ATTACK_BUTTONS = ((460, 650), (455, 657), (453, 666))
-    RADIUS_MIN = 50
+    RADIUS_MIN = 100
     RADIUS_MAX = 400
     def __init__(self) -> None:
         print('Start Combat')
@@ -23,7 +23,7 @@ class StateCombat (SubState):
             self.nextState = SubState.LOOT
             return
         if self.isOnEnemy(screenshot):
-            print('onEnemy')
+            #print('onEnemy')
             #self.lostEnemyDuration = 0
             self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MAX, 0.9)
             self.radius = min(self.radius, StateCombat.RADIUS_MAX)
@@ -33,7 +33,7 @@ class StateCombat (SubState):
                 print('Lost Target')
                 self.nextState = SubState.LOOT
             else:
-                self.radius = base.math.lerp(self.radius, 0, 0.1 * deltaTime)
+                self.radius = base.math.lerp(self.radius, 0, 0.075 * deltaTime)
     
     def onFrameRender(self, screenshot, vm):
         self.angle = (self.angle + random.randrange(30, 45)) % 360
