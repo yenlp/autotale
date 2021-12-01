@@ -22,12 +22,10 @@ class StateCombat (SubState):
             return
         if self.isOnEnemy(screenshot):
             self.lostEnemyDuration = 0
-            self.radius = self.radius + 5
-            if self.radius > StateCombat.RADIUS_MAX:
-                self.radius = StateCombat.RADIUS_MIN
+            self.radius = max(StateCombat.RADIUS_MIN, self.radius / 2)
         else:
             self.lostEnemyDuration += deltaTime
-            if self.lostEnemyDuration > 5:
+            if self.lostEnemyDuration > 3:
                 self.lostEnemyDuration = 0
                 if self.radius > StateCombat.RADIUS_MAX:
                     print('Lost Target')
