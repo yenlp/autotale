@@ -6,17 +6,19 @@ class SubState:
     COMBAT = 2
     LOOT = 3
 
-    POS_TOP = 485, 650
-    COLOR_TOP = 80, 64, 41
+    # POS_TOP = 485, 650
+    # COLOR_TOP = 80, 64, 41
 
-    POS_BOTTOM = 485, 688
-    COLOR_BOTTOM= 32, 16, 3
+    # POS_BOTTOM = 485, 688
+    # COLOR_BOTTOM= 32, 16, 3
 
-    POS_LEFT = 465, 668
-    COLOR_LEFT = 51, 35, 17
+    # POS_LEFT = 465, 668
+    # COLOR_LEFT = 51, 35, 17
 
-    POS_RIGHT = 503, 668
-    COLOR_RIGHT = 55, 43, 35
+    # POS_RIGHT = 503, 668
+    # COLOR_RIGHT = 55, 43, 35
+
+    POS_ATTACK_BUTTONS = ((460, 650), (455, 657), (453, 666))
     
     def __init__(self) -> None:
         self.nextState = None
@@ -39,24 +41,9 @@ class SubState:
         pass
 
     def isOnEnemy(self, screenshot):
-        pix = screenshot.getpixel(SubState.POS_TOP)
-        for i in 0,1,2:
-            if abs(pix[i] - SubState.COLOR_TOP[i]) > 50:
-                return True
-        
-        pix = screenshot.getpixel(SubState.POS_BOTTOM)
-        for i in 0,1,2:
-            if abs(pix[i] - SubState.COLOR_BOTTOM[i]) > 50:
-                return True
-
-        pix = screenshot.getpixel(SubState.POS_LEFT)
-        for i in 0,1,2:
-            if abs(pix[i] - SubState.COLOR_LEFT[i]) > 50:
-                return True
-
-        pix = screenshot.getpixel(SubState.POS_RIGHT)
-        for i in 0,1,2:
-            if abs(pix[i] - SubState.COLOR_RIGHT[i]) > 50:
+        for pos in self.POS_ATTACK_BUTTONS:
+            color = screenshot.getpixel(pos)
+            if color[2] > 100:
                 return True
 
         return False
