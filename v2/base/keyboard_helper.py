@@ -75,7 +75,7 @@ def percentSPChanged():
     settings.percentSP = max(settings.percentSP + 0.1, vmin)
     if settings.percentSP >= 1.0:
         settings.percentSP = vmin
-    print('percentSP', str(settings.percentSP))
+    print('percentSP {p}%'.format(p=round(settings.percentSP * 100)))
     g_app.onPercentChanged()
 
 def percentHPChanged():
@@ -83,7 +83,7 @@ def percentHPChanged():
     settings.percentHP = max(settings.percentHP + 0.1, vmin)
     if settings.percentHP >= 1.0:
         settings.percentHP = vmin
-    print('percentHP', str(settings.percentHP))
+    print('percentHP {p}%'.format(p=round(settings.percentHP * 100)))
     g_app.onPercentChanged()
 
 def percentMPChanged():
@@ -91,5 +91,5 @@ def percentMPChanged():
     settings.percentMP = max(settings.percentMP + 0.1, vmin)
     if settings.percentMP >= 1.0:
         settings.percentMP = vmin
-    print('percentMP', str(settings.percentMP))
+    print('percentMP {p}%'.format(p=round(settings.percentMP * 100)))
     g_app.onPercentChanged()

@@ -65,7 +65,7 @@ class PotionBar (ActionGuiKey):
             self.setPercent(percentX2)
             settings.percentHP = min(percentX2, 0.9)
             print('Shock Dame ', percent)
-            print('Potion percent increase ', self.percent)
+            print('Potion increased {p}%'.format(p=round(self.percent * 100)))
 
     def updateAutoAdjust(self, deltaTime, screenshot):
         position = self.x, self.lerp(self.yLow, self.yHigh, self.minPercent)
@@ -74,7 +74,7 @@ class PotionBar (ActionGuiKey):
             percent = (self.percent + 1.0) / 2
             self.setPercent(percent)
             settings.percentHP = percent
-            print('Potion percent increase ', self.percent)
+            print('Potion auto increased {p}%'.format(p=round(self.percent * 100)))
         else:
             position = self.x, self.lerp(self.yLow, self.yHigh, self.maxPercent)
             color = screenshot.getpixel(position)
@@ -82,7 +82,7 @@ class PotionBar (ActionGuiKey):
                 percent = max(self.percent - 0.01, self.minPercent)
                 self.setPercent(percent)
                 settings.percentHP = percent
-                print('Potion percent decrease ', self.percent)
+                print('Potion auto decreased {p}%'.format(p=round(self.percent * 100)))
 
     def onFrameUpdate(self, deltaTime, screenshot):
         if self.antiShock and self.autoAdjust:
