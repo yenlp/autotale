@@ -79,8 +79,8 @@ class HubController:
 
         for potion in self.quickPotions:
             potion.onFrameUpdate(deltaTime, screenshot)
-        
-        self.balancing.onFrameUpdate(deltaTime, screenshot)
+        if settings.isAutoCombat:
+            self.balancing.onFrameUpdate(deltaTime, screenshot)
 
     def onFrameRender(self, screenshot):
         actionCount = 0
@@ -104,12 +104,12 @@ class HubController:
         for potion in self.quickPotions:
             if potion.isRequired():
                 if not self.inventory.isOpen():
-                    #print('HUB do ad2221d more')
+                    #print('HUB do add more')
                     self.inventory.open()
                 else:
                     potion.onFrameRender(screenshot)
                 return
-        if actionCount == 0:
+        if actionCount == 0 and settings.isAutoCombat:
             self.balancing.onFrameRender(screenshot)
 
 

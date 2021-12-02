@@ -31,7 +31,7 @@ class StateCombat (SubState):
         else:
             self.durationEnemyLost += deltaTime
             if self.durationEnemyLost > 5:
-                self.radius = base.math.lerp(self.radius, 0, 0.3 * deltaTime)
+                self.radius = base.math.lerp(self.radius, 0, 0.1 * deltaTime)
                 if self.radius < self.RADIUS_MIN:
                     print('Lost Target')
                     self.nextState = SubState.LOOT
@@ -42,7 +42,7 @@ class StateCombat (SubState):
         radian = self.angle / 180 * math.pi
         pos = vm.getMiddleScreenPosition()
         x = pos[0] + self.radius * math.sin(radian)
-        y = pos[1] + self.radius * math.cos(radian) * 0.7
+        y = pos[1] + self.radius * math.cos(radian) * 0.6
         pos_mouse = x, y
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
 
