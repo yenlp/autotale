@@ -26,12 +26,12 @@ class StateCombat (SubState):
         if self.isOnEnemy(screenshot):
             #print('onEnemy')
             self.durationEnemyLost = 0
-            self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MAX, 0.9)
+            self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MAX, 1)
             self.radius = min(self.radius, StateCombat.RADIUS_MAX)
         else:
             self.durationEnemyLost += deltaTime
             if self.durationEnemyLost > 5:
-                self.radius = base.math.lerp(self.radius, 0, 0.1 * deltaTime)
+                self.radius = base.math.lerp(self.radius, 0, 0.2 * deltaTime)
                 if self.radius < self.RADIUS_MIN:
                     print('Lost Target')
                     self.nextState = SubState.LOOT
