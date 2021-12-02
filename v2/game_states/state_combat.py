@@ -47,7 +47,7 @@ class StateCombat (SubState):
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
 
     def isOnEnemy(self, screenshot):
-        diff = 10
+        diff = 40
         for pos in StateCombat.POS_ATTACK_BUTTONS:
             pix = screenshot.getpixel(pos)
             if abs(pix[0] - pix[1]) > diff:
