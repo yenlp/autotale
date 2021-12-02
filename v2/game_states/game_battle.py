@@ -10,6 +10,7 @@ class GameBattle(GameState):
     def __init__(self):
         print('GameBattle')
         super().__init__()
+        self.name = 'GameBattle'
         self.state = self.createState(SubState.FIND_ENEMY)
 
     def setVM(self, vm):

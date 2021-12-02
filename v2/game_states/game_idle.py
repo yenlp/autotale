@@ -4,3 +4,4 @@ class GameIdle(GameState):
     def __init__(self):
         print('GameIdle')
         super().__init__()
+        self.name = 'GameIdle'

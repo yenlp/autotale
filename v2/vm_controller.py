@@ -63,15 +63,22 @@ class VMController:
         #print('VMController::onFrameRender', self.name)
         self.gameState.onFrameRender(self.img)
 
+    def stopCurrentGameState(self):
+        if self.gameState != None:
+            self.gameState.onStop()
+
     def pause(self):
+        self.stopCurrentGameState()
         self.gameState = GameIdle()
         self.gameState.setVM(self)
 
     def battle(self):
+        self.stopCurrentGameState()
         self.gameState = GameBattle()
         self.gameState.setVM(self)
 
     def home(self):
+        self.stopCurrentGameState()
         self.gameState = GameHome()
         self.gameState.setVM(self)
 
