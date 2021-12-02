@@ -68,7 +68,15 @@ class StateFindEnemy (SubState):
         pass
 
     def onInitRender(self, deltaTime, screenshot, vm):
-        pass
+        pos = vm.getMiddleScreenPosition()
+        pyautogui.moveTo(pos[0], pos[1], 0.1)
+        time.sleep(0.1)
+        pyautogui.mouseDown(button=pyautogui.RIGHT)
+        pyautogui.mouseUp(button=pyautogui.RIGHT)
+        time.sleep(0.2)
+        pyautogui.mouseDown(button=pyautogui.RIGHT)
+        pyautogui.mouseUp(button=pyautogui.RIGHT)
+        time.sleep(0.1)
 
     def onFindingRender(self, deltaTime, screenshot, vm):
         self.idx = (self.idx + 1) % len(self.angle)
