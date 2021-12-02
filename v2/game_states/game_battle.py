@@ -11,7 +11,7 @@ class GameBattle(GameState):
         print('GameBattle')
         super().__init__()
         self.name = 'GameBattle'
-        self.state = self.createState(SubState.FIND_ENEMY)
+        self.states = []
 
     def setVM(self, vm):
         super().setVM(vm)
@@ -30,10 +30,16 @@ class GameBattle(GameState):
             return
         if not settings.isAutoCombat:
             return
-        self.state.onFrameUpdate(deltaTime, screenshot, self.vm)
-        if self.state.isCompleted():
-            nextState = self.state.getNextStateId()
-            self.state = self.createState(nextState)
+        if len(self.states) > 1:
+            self.states.remove(self.states[0])
+        elif len(self.states) == 0:
+            self.states.append(self.createState(SubState.FIND_ENEMY))
+        state = self.states[0]
+        state.onFrameUpdate(deltaTime, screenshot, self.vm)
+        if state.isCompleted():
+            nextState = state.getNextStateId()
+            state = self.createState(nextState)
+            self.states.append(state)
 
     def onFrameRender(self, screenshot):
         super().onFrameRender(screenshot)
@@ -41,8 +47,9 @@ class GameBattle(GameState):
             return
         if not settings.isAutoCombat:
             return
-        if settings.isAutoRotate and self.state.isRotateAllowed:
+        state = self.states[0]
+        if settings.isAutoRotate and state.isRotateAllowed:
             key = 'right'
             keyboard_helper.keyDown(key, 0.15)
             keyboard_helper.keyUp(key)
-        self.state.onFrameRender(screenshot, self.vm)
+        state.onFrameRender(screenshot, self.vm)

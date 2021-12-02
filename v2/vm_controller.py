@@ -19,8 +19,7 @@ class VMController:
         self.marginTop = 0
         self.marginBot = 0
         self.screenUtils = ScreenUtils()
-        self.gameState = GameInit()
-        self.gameState.setVM(self)
+        self.gameStates = []
         self.img = self.detectWindow()
         self.activate()
 
@@ -57,33 +56,38 @@ class VMController:
         self.y = y + self.marginTop
         self.height = h - self.marginBot - self.marginTop
         self.img = self.screenUtils.capture(region=(self.x, self.y, self.width, self.height))
-        self.gameState.onFrameUpdate(deltaTime, self.img)
+        if len(self.gameStates) > 1:
+            state = self.gameStates[0]
+            state.onStop()
+            self.gameStates.remove(state)
+        elif len(self.gameStates) == 0:
+            state = GameInit()
+            state.setVM(self)
+            self.gameStates.append(state)
+        state = self.gameStates[0]
+        state.onFrameUpdate(deltaTime, self.img)
 
     def onFrameRender(self):
         #print('VMController::onFrameRender', self.name)
-        self.gameState.onFrameRender(self.img)
+        state = self.gameStates[0]
+        state.onFrameRender(self.img)
 
-    def stopCurrentGameState(self):
-        if self.gameState != None:
-            self.gameState.onStop()
+    def pushState(self, state):
+        state.setVM(self)
+        self.gameStates.append(state)
 
     def pause(self):
-        self.stopCurrentGameState()
-        self.gameState = GameIdle()
-        self.gameState.setVM(self)
+        self.pushState(GameIdle())
 
     def battle(self):
-        self.stopCurrentGameState()
-        self.gameState = GameBattle()
-        self.gameState.setVM(self)
+        self.pushState(GameBattle())
 
     def home(self):
-        self.stopCurrentGameState()
-        self.gameState = GameHome()
-        self.gameState.setVM(self)
+        self.pushState(GameHome())
 
     def onPercentChanged(self):
-        self.gameState.onPercentChanged()
+        for state in self.gameStates:
+            state.onPercentChanged()
 
     def convertGameToScreen(self, position):
         x = self.x + position[0]
