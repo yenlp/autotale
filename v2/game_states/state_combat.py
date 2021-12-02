@@ -1,4 +1,5 @@
 import math
+from time import time
 import base.math
 import random
 import pyautogui
@@ -12,7 +13,7 @@ class StateCombat (SubState):
     def __init__(self) -> None:
         print('Start Combat')
         super().__init__()
-        #self.lostEnemyDuration = 0
+        self.durationEnemyLost = 0
         self.radius = (StateCombat.RADIUS_MAX + StateCombat.RADIUS_MIN) / 2
         self.angle = random.randrange(0, 360)
 
@@ -24,16 +25,17 @@ class StateCombat (SubState):
             return
         if self.isOnEnemy(screenshot):
             #print('onEnemy')
-            #self.lostEnemyDuration = 0
+            self.durationEnemyLost = 0
             self.radius = base.math.lerp(self.radius, StateCombat.RADIUS_MAX, 0.9)
             self.radius = min(self.radius, StateCombat.RADIUS_MAX)
         else:
-            #self.lostEnemyDuration += deltaTime
-            if self.radius < StateCombat.RADIUS_MIN:
-                print('Lost Target')
-                self.nextState = SubState.LOOT
-            else:
-                self.radius = base.math.lerp(self.radius, 0, 0.02 * deltaTime)
+            self.durationEnemyLost += deltaTime
+            if self.durationEnemyLost > 5:
+                self.radius = base.math.lerp(self.radius, 0, 0.3 * deltaTime)
+                if self.radius < self.RADIUS_MIN:
+                    print('Lost Target')
+                    self.nextState = SubState.LOOT
+                
     
     def onFrameRender(self, screenshot, vm):
         self.angle = (self.angle + random.randrange(30, 45)) % 360
