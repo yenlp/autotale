@@ -86,11 +86,11 @@ class StateFindEnemy (SubState):
         self.idx = self.idx + 1
         if self.idx >= len(self.angle):
             self.idx = 0
-            self.radius += 15
+            self.radius = (self.radius + 15) % 300
         radian = self.angle[self.idx] / 180 * math.pi
         pos = vm.getMiddleScreenPosition()
         x = pos[0] + self.radius * math.sin(radian)
-        y = pos[1] + self.radius * math.cos(radian)
+        y = pos[1] + self.radius * math.cos(radian) * 0.5
         pyautogui.moveTo(x, y, 0.1)
         time.sleep(0.1)
         keyShift = 'shift'

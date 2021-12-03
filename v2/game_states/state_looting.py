@@ -7,27 +7,36 @@ import base.keyboard_helper as keyboard_helper
 import random
 
 class StateLooting (SubState):
+    LOOT_FILTER_ACTIVE = 0
+    CLICK = 1
+    PICK_UP = 2
+    COMPLETED = 3
 
     def __init__(self) -> None:
         super().__init__()
-        self.lootFilterActive = False
         self.isRotateAllowed = False
+        self.state = StateLooting.LOOT_FILTER_ACTIVE
         self.idx = -1
         self.angle = 0, 180, 45, 225, 90, 270, 135, 315
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
-        if self.lootFilterActive:
+        if self.state == StateLooting.CLICK:
             self.idx = self.idx + 1
+        elif self.state == StateLooting.PICK_UP:
+            self.time += deltaTime
         if self.idx >= len(self.angle):
+            self.state = StateLooting.COMPLETED
             self.nextState = SubState.FIND_ENEMY
             keyboard_helper.keyUp('a', 0.0, 'Stop Loot')
 
     def onFrameRender(self, screenshot, vm):
-        if self.lootFilterActive:
-            if self.idx >= len(self.angle):
-                return
-            r = 30
+        if self.state == StateLooting.LOOT_FILTER_ACTIVE:
+            self.state = StateLooting.CLICK
+            time.sleep(0.2)
+            keyboard_helper.keyDown('a', 0, 'Start Loot')
+        elif self.state == StateLooting.CLICK:
+            r = 50
             radian = self.angle[self.idx] / 180 * math.pi
             pos = vm.getMiddleScreenPosition()
             x = pos[0] + r * math.sin(radian)
@@ -37,11 +46,7 @@ class StateLooting (SubState):
             time.sleep(0.1)
             pyautogui.mouseDown()
             pyautogui.mouseUp()
-            time.sleep(0.3)
-        else:
-            self.lootFilterActive = True
-            time.sleep(0.2)
-            #p = pyautogui.PAUSE
-            #pyautogui.PAUSE = 0
-            keyboard_helper.keyDown('a', 0, 'Start Loot')
-            #pyautogui.PAUSE = p
+            self.state = StateLooting.PICK_UP
+        elif self.state == StateLooting.PICK_UP:
+            if self.time >= 0.5:
+                self.state = StateLooting.CLICK

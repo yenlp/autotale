@@ -42,7 +42,7 @@ class StateCombat (SubState):
         radian = self.angle / 180 * math.pi
         pos = vm.getMiddleScreenPosition()
         x = pos[0] + self.radius * math.sin(radian)
-        y = pos[1] + self.radius * math.cos(radian) * 0.6
+        y = pos[1] + self.radius * math.cos(radian) * 0.5
         pos_mouse = x, y
         pyautogui.moveTo(pos_mouse[0], pos_mouse[1], 0.15)
 

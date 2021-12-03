@@ -18,8 +18,8 @@ class PotionBalancing:
             potion0 = self.potions[i]
             potion1 = self.potions[j]
             diff = potion0.getCount() - potion1.getCount()
-            if diff > 3:
-                if random.randint(0, 100) + diff > 50:
+            if diff > 0:
+                if random.randint(0, 90) + diff * 10 > 99:
                     print('Balancing')
                     potion1.potting(screenshot)
                     return True
