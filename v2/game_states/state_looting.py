@@ -17,13 +17,14 @@ class StateLooting (SubState):
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         self.time = self.time + deltaTime
+        if self.lootFilterActive:
+            self.idx = self.idx + 1
         if self.idx >= len(self.angle):
             self.nextState = SubState.FIND_ENEMY
-            keyboard_helper.pressKey('a', 0.05, 'Stop Loot')
+            keyboard_helper.keyUp('a', 0.0, 'Stop Loot')
 
     def onFrameRender(self, screenshot, vm):
         if self.lootFilterActive:
-            self.idx = self.idx + 1
             if self.idx >= len(self.angle):
                 return
             r = 30
@@ -36,12 +37,11 @@ class StateLooting (SubState):
             time.sleep(0.1)
             pyautogui.mouseDown()
             pyautogui.mouseUp()
-            time.sleep(0.4)
+            time.sleep(0.3)
         else:
             self.lootFilterActive = True
-            time.sleep(0.4)
-            p = pyautogui.PAUSE
-            pyautogui.PAUSE = 0
-            keyboard_helper.pressKey('a', 0.05, 'Start Loot')
-            keyboard_helper.pressKey('a', 0.05)
-            pyautogui.PAUSE = p
+            time.sleep(0.2)
+            #p = pyautogui.PAUSE
+            #pyautogui.PAUSE = 0
+            keyboard_helper.keyDown('a', 0, 'Start Loot')
+            #pyautogui.PAUSE = p

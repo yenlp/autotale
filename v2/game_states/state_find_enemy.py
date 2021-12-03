@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+import random
 import time
 import pyautogui
 import math
@@ -28,7 +30,12 @@ class StateFindEnemy (SubState):
         self.state = StateFindEnemy.INIT
         self.isRotateAllowed = False
         self.idx = -1
+        self.radius = 75
         self.angle = 0, 180, 45, 225, 90, 270, 135, 315
+        # for i in range(30):
+        #     angle = random.randrange(0, 359)
+        #     self.angle.append(angle)
+        #     self.angle.append(angle + 180)
 
     def onFrameUpdate(self, deltaTime, screenshot, vm):
         result = {
@@ -70,21 +77,20 @@ class StateFindEnemy (SubState):
     def onInitRender(self, deltaTime, screenshot, vm):
         pos = vm.getMiddleScreenPosition()
         pyautogui.moveTo(pos[0], pos[1], 0.1)
-        time.sleep(0.1)
+        #time.sleep(0.1)
         pyautogui.mouseDown(button=pyautogui.RIGHT)
         pyautogui.mouseUp(button=pyautogui.RIGHT)
-        time.sleep(0.2)
-        pyautogui.mouseDown(button=pyautogui.RIGHT)
-        pyautogui.mouseUp(button=pyautogui.RIGHT)
-        time.sleep(0.1)
+        #time.sleep(0.2)
 
     def onFindingRender(self, deltaTime, screenshot, vm):
-        self.idx = (self.idx + 1) % len(self.angle)
+        self.idx = self.idx + 1
+        if self.idx >= len(self.angle):
+            self.idx = 0
+            self.radius += 15
         radian = self.angle[self.idx] / 180 * math.pi
         pos = vm.getMiddleScreenPosition()
-        r = 75
-        x = pos[0] + r * math.sin(radian)
-        y = pos[1] + r * math.cos(radian)
+        x = pos[0] + self.radius * math.sin(radian)
+        y = pos[1] + self.radius * math.cos(radian)
         pyautogui.moveTo(x, y, 0.1)
         time.sleep(0.1)
         keyShift = 'shift'
