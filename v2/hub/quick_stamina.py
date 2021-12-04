@@ -4,6 +4,7 @@ class QuickStamina(QuickPotion):
     def __init__(self, x, y, color):
         #print('QuickStamina')
         super().__init__(x, y, color)
+        self.name = 'Stamina'
 
     def onFrameUpdate(self, deltaTime, screenshot):
         color = screenshot.getpixel(self.position)

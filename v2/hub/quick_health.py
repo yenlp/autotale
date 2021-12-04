@@ -4,6 +4,7 @@ class QuickHealth (QuickPotion):
     def __init__ (self, x, y, color):
         #print('QuickHealth')
         super().__init__(x, y, color)
+        self.name = 'Health'
 
     def onFrameUpdate (self, deltaTime, screenshot):
         color = screenshot.getpixel(self.position)

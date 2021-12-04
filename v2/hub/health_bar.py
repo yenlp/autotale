@@ -6,4 +6,4 @@ class HealthBar (PotionBar):
         #print('HealthBar')
         super().__init__(x, yLow, yHigh)
         self.key = '2'
-        self.message = 'Health Recovery'
+        self.name = 'Health'

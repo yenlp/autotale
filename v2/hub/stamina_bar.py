@@ -5,4 +5,4 @@ class StaminaBar (PotionBar):
         #print('StaminaBar')
         super().__init__(x, yLow, yHigh)
         self.key = '1'
-        self.message = 'Stamina Recovery'
+        self.name = 'Stamina'

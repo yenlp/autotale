@@ -13,6 +13,7 @@ class PotionBar (ActionGuiKey):
         self.color = Color.BLACK()
         self.pottingCount = 0
         self.antiShock = True
+        self.isPottingLastFrame = False
         self.trend = [9, 9, 9, 9, 9]
         self.autoAdjust = False
         self.minPercent = 0.2
@@ -88,20 +89,23 @@ class PotionBar (ActionGuiKey):
         if self.antiShock and self.autoAdjust:
             self.updateAntiShock(deltaTime, screenshot)
         color = screenshot.getpixel(self.triggerPosition)
-        if self.isColorMatched(Color(color[0], color[1], color[2])):
-            self.isActionRequired = False
-        else:
-            self.isActionRequired = True
+        self.isActionRequired = not self.isColorMatched(Color(color[0], color[1], color[2]))  
+        if self.isPottingLastFrame and not self.isActionRequired:
+            self.isPottingLastFrame = False
         if self.isActionRequired and self.autoAdjust:
             self.updateAutoAdjust(deltaTime, screenshot)
 
     def onFrameRender(self, screenshot):
         if self.isActionRequired:
-            self.potting(screenshot)
+            self.potting(screenshot, self.name + ' Recovery')
 
-    def potting(self, screenshot):
-        self.pottingCount = self.pottingCount + 1
-        self.doAction(screenshot)
+    def potting(self, screenshot, mess):
+        if not self.isPottingLastFrame:
+            self.isPottingLastFrame = True
+            self.pottingCount = self.pottingCount + 1
+        elif mess != None:
+            mess = None
+        self.doAction(screenshot, mess)
         time.sleep(0.1)
 
     def isColorMatched(self, color):

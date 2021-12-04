@@ -1,4 +1,5 @@
 
+from time import time
 from base.color import Color
 from hub.health_bar import HealthBar
 from hub.mana_bar import ManaBar
@@ -88,7 +89,7 @@ class HubController:
             if bar.isRequired():
                 actionCount = actionCount + 1
                 bar.onFrameRender(screenshot)
-                break
+                return
         
         if not self.inventory.getInteractable():
             return

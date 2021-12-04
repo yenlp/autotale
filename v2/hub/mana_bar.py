@@ -5,4 +5,4 @@ class ManaBar (PotionBar):
         #print('ManaBar')
         super().__init__(x, yLow, yHigh)
         self.key = '3'
-        self.message = 'Mana Recovery'
+        self.name = 'Mana'
