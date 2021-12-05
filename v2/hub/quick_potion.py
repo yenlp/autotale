@@ -9,6 +9,7 @@ class QuickPotion (ActionGui):
     def __init__(self, x, y, color):
         #print('QuickPotion')
         super().__init__()
+        self.name = ''
         self.position = x, y
         self.color = color
         self.key = 'none'
@@ -37,7 +38,7 @@ class QuickPotion (ActionGui):
     def addMore(self, screenshot):
         if self.isAddingMore:
             return
-        print('QuickPotion::addMore')
+        print('Add More', self.name)
         self.isAddingMore = True
         self.lastMousePosition = pyautogui.position() 
         pos = self.vm.convertGameToScreen(self.inventoryPosition)

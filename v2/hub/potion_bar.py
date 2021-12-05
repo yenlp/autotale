@@ -35,6 +35,9 @@ class PotionBar (ActionGuiKey):
         self.autoAdjust = True
         self.minPercent = minPercent
 
+    def onFilled(self):
+        self.pottingCount += 100
+
     def getCount(self):
         return self.pottingCount
 

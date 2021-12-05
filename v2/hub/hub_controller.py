@@ -94,9 +94,11 @@ class HubController:
         if not self.inventory.getInteractable():
             return
 
-        for potion in self.quickPotions:
+        for i in range(len(self.quickPotions)):
+            potion = self.quickPotions[i]
             if potion.isCompleted():
                 potion.reset()
+                self.potionBars[i].onFilled()
                 if self.inventory.isOpen():
                     #print('HUB closing inventory')
                     self.inventory.close()
