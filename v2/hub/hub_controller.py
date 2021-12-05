@@ -68,9 +68,9 @@ class HubController:
             potion.setVM(vm)
 
     def onPercentChanged(self):
-        self.potionBars[0].setPercent(settings.percentHP)
-        self.potionBars[1].setPercent(settings.percentSP)
-        self.potionBars[2].setPercent(settings.percentMP)
+        self.potionBars[0].onUserSet(settings.percentHP)
+        self.potionBars[1].onUserSet(settings.percentSP)
+        self.potionBars[2].onUserSet(settings.percentMP)
 
     def onFrameUpdate(self, deltaTime, screenshot):
         #print('HubController::onFrameUpdate')

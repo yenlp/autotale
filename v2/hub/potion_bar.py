@@ -1,4 +1,5 @@
 import time
+import base.math
 from base.color import Color
 from hub.action_gui_key import ActionGuiKey
 import settings
@@ -26,6 +27,13 @@ class PotionBar (ActionGuiKey):
         
     def setColor(self, color):
         self.color = color
+
+    def onUserSet(self, percent):
+        if self.autoAdjust:
+            self.minPercent = percent
+            if self.percent < self.minPercent:
+                self.percent = self.minPercent
+        self.setPercent(self.percent)
 
     def setPercent(self, percent):
         self.percent = percent
@@ -67,7 +75,7 @@ class PotionBar (ActionGuiKey):
         percentX2 = percent * 2 + 0.05
         if percentX2 > self.percent:
             self.setPercent(percentX2)
-            settings.percentHP = min(percentX2, 0.9)
+            #settings.percentHP = min(percentX2, 0.9)
             print('Shock Dame ', percent)
             print('Potion increased {p}%'.format(p=round(self.percent * 100)))
 
@@ -77,15 +85,15 @@ class PotionBar (ActionGuiKey):
         if not self.isColorMatched(Color(color[0], color[1], color[2])):
             percent = (self.percent + 1.0) / 2
             self.setPercent(percent)
-            settings.percentHP = percent
+            #settings.percentHP = percent
             print('Potion auto increased {p}%'.format(p=round(self.percent * 100)))
         else:
             position = self.x, self.lerp(self.yLow, self.yHigh, self.maxPercent)
             color = screenshot.getpixel(position)
             if self.isColorMatched(Color(color[0], color[1], color[2])):
-                percent = max(self.percent - 0.01, self.minPercent)
+                percent = base.math.lerp(self.minPercent, self.percent, 0.25)
                 self.setPercent(percent)
-                settings.percentHP = percent
+                #settings.percentHP = percent
                 print('Potion auto decreased {p}%'.format(p=round(self.percent * 100)))
 
     def onFrameUpdate(self, deltaTime, screenshot):
