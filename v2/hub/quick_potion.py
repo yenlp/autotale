@@ -66,7 +66,7 @@ class QuickPotion (ActionGui):
         if percent > 0.65:
             self.status = QuickPotion.STATUS_HIGH
         elif percent > 0.3:
-            self.status = QuickPotion.STATUS_HIGH
+            self.status = QuickPotion.STATUS_SAFE
         else:
             self.status = QuickPotion.STATUS_LOW
 
