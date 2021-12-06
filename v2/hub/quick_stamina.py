@@ -7,6 +7,7 @@ class QuickStamina(QuickPotion):
         self.name = 'Stamina'
 
     def onFrameUpdate(self, deltaTime, screenshot):
+        super().onFrameUpdate(deltaTime, screenshot)
         color = screenshot.getpixel(self.position)
         self.isActionRequired = self.color.green() > color[1]
 

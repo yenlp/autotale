@@ -6,6 +6,10 @@ from hub.inventory import Inventory
 import base.keyboard_helper as keyboard_helper
 
 class QuickPotion (ActionGui):
+    STATUS_LOW = 0
+    STATUS_SAFE = 1
+    STATUS_HIGH = 2
+
     def __init__(self, x, y, color):
         #print('QuickPotion')
         super().__init__()
@@ -17,6 +21,10 @@ class QuickPotion (ActionGui):
         self.isAddingMore = False
         self.isAddingCompleted = False
         self.lastMousePosition = 0, 0
+        self.counterPositions = []
+        self.status = QuickPotion.STATUS_SAFE
+        self.balancingFrequency = 0
+        self.balancingTime = 0
 
     def setKey(self, key):
         self.key = key
@@ -24,8 +32,43 @@ class QuickPotion (ActionGui):
     def setInventoryPosition(self, position):
         self.inventoryPosition = position
 
+    def addCounterPositions(self, start, end):
+        pos = (start, end)
+        self.counterPositions.append(pos)
+
     def onFrameUpdate(self, deltaTime, screenshot):
-        pass
+        if self.counterPositions == None or len(self.counterPositions) == 0:
+            return
+        if self.balancingFrequency <= 0:
+            return
+        self.balancingTime += deltaTime
+        if self.balancingTime < self.balancingFrequency:
+            self.status = QuickPotion.STATUS_SAFE
+            return
+        self.balancingTime -= self.balancingFrequency
+        xmin = 99999
+        xmax = 0
+        pos = 0,0
+        c = 240
+        for t in self.counterPositions:
+            if xmin > t[0][0]:
+                xmin = t[0][0]
+            if xmax < t[1][0]:
+                xmax = t[1][0]
+            y = (t[0][1] + t[1][1]) / 2
+            for x in range(t[1][0], t[0][0] - 1, -1):
+                color = screenshot.getpixel((x,y))
+                if color[0] > c and color[1] > c and color[2] > c:
+                    if pos[0] < x:
+                        pos = (x,y)
+                    break
+        percent = (pos[0] - xmin) / (xmax - xmin)
+        if percent > 0.65:
+            self.status = QuickPotion.STATUS_HIGH
+        elif percent > 0.3:
+            self.status = QuickPotion.STATUS_HIGH
+        else:
+            self.status = QuickPotion.STATUS_LOW
 
     def onFrameRender(self, screenshot):
         #print('PotionBar::onFrameRender')
@@ -60,6 +103,12 @@ class QuickPotion (ActionGui):
 
     def isCompleted(self):
         return self.isAddingCompleted
+
+    def setBalancingCheckFrequency(self, t):
+        self.balancingFrequency = t
+
+    def isHighStatus(self):
+        return self.status == QuickPotion.STATUS_HIGH
 
     def reset(self):
         self.isAddingMore = False

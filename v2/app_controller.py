@@ -8,6 +8,8 @@ class AppController:
     COMMAND_PAUSE = 0
     COMMAND_BATTLE = 1
     COMMAND_PERCENT_CHANGE = 2
+    COMMAND_TAKE_SCREENSHOTS = 3
+
     def __init__(self):
         print('AppController')
         self.isAlive = True
@@ -30,21 +32,34 @@ class AppController:
     def onPercentChanged(self):
         self.commands.put(AppController.COMMAND_PERCENT_CHANGE)
 
+    def takeScreenshots(self):
+        self.commands.put(AppController.COMMAND_TAKE_SCREENSHOTS)
+
     # update virtual machines 
     # main update function
     def onFrameUpdate(self, deltaTime):
         if self.commands.qsize() > 0:
             comm = self.commands.get()
-            if comm != None:
-                if comm == AppController.COMMAND_PAUSE:
-                    for vm in self.vms:
-                        vm.pause()
-                elif comm == AppController.COMMAND_BATTLE:
-                    for vm in self.vms:
-                        vm.battle()
-                elif comm == AppController.COMMAND_PERCENT_CHANGE:
-                    for vm in self.vms:
-                        vm.onPercentChanged()
+            # if comm != None:
+            #     if comm == AppController.COMMAND_PAUSE:
+            #         for vm in self.vms:
+            #             vm.pause()
+            #     elif comm == AppController.COMMAND_BATTLE:
+            #         for vm in self.vms:
+            #             vm.battle()
+            #     elif comm == AppController.COMMAND_PERCENT_CHANGE:
+            #         for vm in self.vms:
+            #             vm.onPercentChanged()
+            #     elif comm == AppController.COMMAND_TAKE_SCREENSHOTS:
+            #         for vm in self.vms:
+            #             vm.onPercentChanged()
+            for vm in self.vms:
+                {
+                    AppController.COMMAND_PAUSE : vm.pause,
+                    AppController.COMMAND_BATTLE : vm.battle,
+                    AppController.COMMAND_PERCENT_CHANGE : vm.onPercentChanged,
+                    AppController.COMMAND_TAKE_SCREENSHOTS : vm.takeScreenshots
+                }.get(comm, None)()
 
         for vm in self.vms:
             vm.onFrameUpdate(deltaTime)

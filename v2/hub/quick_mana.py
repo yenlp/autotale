@@ -7,6 +7,7 @@ class QuickMana(QuickPotion):
         self.name = 'Mana'
 
     def onFrameUpdate(self, deltaTime, screenshot):
+        super().onFrameUpdate(deltaTime, screenshot)
         color = screenshot.getpixel(self.position)
         self.isActionRequired = self.color.blue() > color[2]
 

@@ -1,6 +1,6 @@
 from screen_utils import ScreenUtils
 import pygetwindow as gw
-import pyautogui
+import time
 from game_states.game_idle import GameIdle
 from game_states.game_init import GameInit
 from game_states.game_battle import GameBattle
@@ -18,6 +18,7 @@ class VMController:
         self.height = VM_HEIGHT
         self.marginTop = 0
         self.marginBot = 0
+        self.isSaving = False
         self.screenUtils = ScreenUtils()
         self.gameStates = []
         self.img = self.detectWindow()
@@ -56,6 +57,11 @@ class VMController:
         self.y = y + self.marginTop
         self.height = h - self.marginBot - self.marginTop
         self.img = self.screenUtils.capture(region=(self.x, self.y, self.width, self.height))
+        if self.isSaving:
+            self.isSaving = False
+            t = round(time.time())
+            path = 'screenshots/screenshot_{t}.png'.format(t=t)
+            self.img.save(path)
         if len(self.gameStates) > 1:
             state = self.gameStates[0]
             state.onStop()
@@ -88,6 +94,9 @@ class VMController:
     def onPercentChanged(self):
         for state in self.gameStates:
             state.onPercentChanged()
+
+    def takeScreenshots(self):
+        self.isSaving = True
 
     def convertGameToScreen(self, position):
         x = self.x + position[0]

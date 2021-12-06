@@ -21,6 +21,7 @@ def setupKeyboard(app):
     keyboard.add_hotkey('ctrl+u', percentSPChanged, args=())
     keyboard.add_hotkey('ctrl+i', percentHPChanged, args=())
     keyboard.add_hotkey('ctrl+o', percentMPChanged, args=())
+    keyboard.add_hotkey('ctrl+s', takeScreenshots, args=())
 
 def pressKey(key, sleepTime = 0.0, mess = None):
     if mess != None:
@@ -93,3 +94,6 @@ def percentMPChanged():
         settings.percentMP = vmin
     print('percentMP {p}%'.format(p=round(settings.percentMP * 100)))
     g_app.onPercentChanged()
+
+def takeScreenshots():
+    g_app.takeScreenshots()

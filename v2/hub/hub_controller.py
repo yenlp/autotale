@@ -51,6 +51,22 @@ class HubController:
         quickMana.setKey('3')
         quickMana.setInventoryPosition((190, 555))
 
+        frequency = 120
+        quickStamina.addCounterPositions((609, 674), (629, 674))
+        quickStamina.addCounterPositions((609, 677), (629, 677))
+        #quickStamina.addCounterPositions((609, 681), (629, 681))
+        quickStamina.setBalancingCheckFrequency(frequency)
+
+        quickHealth.addCounterPositions((635, 674), (655, 674))
+        quickHealth.addCounterPositions((635, 677), (655, 677))
+        #quickHealth.addCounterPositions((635, 681), (655, 681))
+        quickHealth.setBalancingCheckFrequency(frequency)
+
+        quickMana.addCounterPositions((661, 674), (681, 674))
+        quickMana.addCounterPositions((661, 677), (681, 677))
+        #quickMana.addCounterPositions((661, 681), (681, 681))
+        quickMana.setBalancingCheckFrequency(frequency)
+
         self.quickPotions = []
         self.quickPotions.append(quickHealth)
         self.quickPotions.append(quickStamina)
@@ -77,9 +93,14 @@ class HubController:
         self.inventory.onFrameUpdate(deltaTime, screenshot)
         for bar in self.potionBars:
             bar.onFrameUpdate(deltaTime, screenshot)
-
-        for potion in self.quickPotions:
+        for i in range(len(self.quickPotions)):
+            potion = self.quickPotions[i]
             potion.onFrameUpdate(deltaTime, screenshot)
+            if potion.isHighStatus():
+                bar = self.potionBars[i]
+                n = 30
+                print(bar.name, 'will remove', n)
+                bar.remove(n)
         if settings.isAutoCombat:
             self.balancing.onFrameUpdate(deltaTime, screenshot)
 
@@ -98,7 +119,7 @@ class HubController:
             potion = self.quickPotions[i]
             if potion.isCompleted():
                 potion.reset()
-                self.potionBars[i].onFilled()
+                #self.potionBars[i].onFilled()
                 if self.inventory.isOpen():
                     #print('HUB closing inventory')
                     self.inventory.close()
