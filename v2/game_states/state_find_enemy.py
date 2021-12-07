@@ -86,7 +86,7 @@ class StateFindEnemy (SubState):
         self.idx = self.idx + 1
         if self.idx >= len(self.angle):
             self.idx = 0
-            self.radius = (self.radius + 15) % 300
+            self.radius = (self.radius + 15) % 200
         radian = self.angle[self.idx] / 180 * math.pi
         pos = vm.getMiddleScreenPosition()
         x = pos[0] + self.radius * math.sin(radian)
