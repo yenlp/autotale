@@ -20,16 +20,16 @@ class HubController:
 
         healthbar = HealthBar(441, 695, 610)
         healthbar.setColor(Color(170, 10, 10))
-        healthbar.setPercent(settings.percentHP)
         healthbar.setAutoAdjust(0.5, 0.6)
+        healthbar.onUserSet(settings.percentHP)
 
         staminaBar = StaminaBar(420, 695, 625)
         staminaBar.setColor(Color(90, 210, 10))
-        staminaBar.setPercent(settings.percentSP)
+        staminaBar.onUserSet(settings.percentSP)
 
         manaBar = ManaBar(588, 695, 610)
         manaBar.setColor(Color(10, 10, 135))
-        manaBar.setPercent(settings.percentMP)
+        manaBar.onUserSet(settings.percentMP)
 
         self.potionBars = []
         self.potionBars.append(healthbar)

@@ -15,8 +15,9 @@ class PotionBar (ActionGuiKey):
         self.pottingCount = 0
         self.antiShock = True
         self.isPottingLastFrame = False
-        self.trend = [9, 9, 9, 9, 9]
+        self.trend = [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
         self.autoAdjust = False
+        self.percentUser = 0
         self.minPercent = 0.2
         self.maxPercent = 0.2
         self.percent = 1.0
@@ -29,10 +30,12 @@ class PotionBar (ActionGuiKey):
         self.color = color
 
     def onUserSet(self, percent):
+        self.percentUser = percent
         if self.autoAdjust:
-            self.minPercent = percent
-            if self.percent < self.minPercent:
-                self.percent = self.minPercent
+            if self.percent < percent:
+                self.percent = percent
+        else:
+            self.percent = percent
         self.setPercent(self.percent)
 
     def setPercent(self, percent):
@@ -42,6 +45,7 @@ class PotionBar (ActionGuiKey):
     def setAutoAdjust(self, minPercent, maxPercent):
         self.autoAdjust = True
         self.minPercent = minPercent
+        self.maxPercent = maxPercent
 
     def remove(self, n):
         self.pottingCount -= n
@@ -83,21 +87,22 @@ class PotionBar (ActionGuiKey):
             print('Potion increased {p}%'.format(p=round(self.percent * 100)))
 
     def updateAutoAdjust(self, deltaTime, screenshot):
-        position = self.x, self.lerp(self.yLow, self.yHigh, self.minPercent)
+        min_percent = max(self.minPercent, self.percentUser)
+        max_percent = max(self.maxPercent, self.percentUser)
+        position = self.x, self.lerp(self.yLow, self.yHigh, min_percent)
         color = screenshot.getpixel(position)
         if not self.isColorMatched(Color(color[0], color[1], color[2])):
-            percent = (self.percent + 1.0) / 2
+            max_percent = max(max_percent, 0.9)
+            percent = (self.percent + max_percent) / 2
             self.setPercent(percent)
-            #settings.percentHP = percent
-            print('Potion auto increased {p}%'.format(p=round(self.percent * 100)))
+            print('Potion increased {p}%'.format(p=round(self.percent * 100)))
         else:
-            position = self.x, self.lerp(self.yLow, self.yHigh, self.maxPercent)
+            position = self.x, self.lerp(self.yLow, self.yHigh, max_percent)
             color = screenshot.getpixel(position)
             if self.isColorMatched(Color(color[0], color[1], color[2])):
-                percent = base.math.lerp(self.minPercent, self.percent, 0.25)
+                percent = base.math.lerp(min_percent, self.percent, 0.8)
                 self.setPercent(percent)
-                #settings.percentHP = percent
-                print('Potion auto decreased {p}%'.format(p=round(self.percent * 100)))
+                print('Potion decreased {p}%'.format(p=round(self.percent * 100)))
 
     def onFrameUpdate(self, deltaTime, screenshot):
         if self.antiShock and self.autoAdjust:
