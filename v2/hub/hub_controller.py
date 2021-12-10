@@ -51,7 +51,7 @@ class HubController:
         quickMana.setKey('3')
         quickMana.setInventoryPosition((190, 555))
 
-        frequency = 120
+        frequency = settings.balancing_frequency
         quickStamina.addCounterPositions((609, 674), (629, 674))
         quickStamina.addCounterPositions((609, 677), (629, 677))
         #quickStamina.addCounterPositions((609, 681), (629, 681))
@@ -98,9 +98,8 @@ class HubController:
             potion.onFrameUpdate(deltaTime, screenshot)
             if potion.isHighStatus():
                 bar = self.potionBars[i]
-                n = 30
-                print(bar.name, 'will remove', n)
-                bar.remove(n)
+                print(bar.name, 'will remove', settings.balancing_potion)
+                bar.remove(settings.balancing_potion)
         if settings.isAutoCombat:
             self.balancing.onFrameUpdate(deltaTime, screenshot)
 
