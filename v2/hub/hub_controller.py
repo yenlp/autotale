@@ -96,11 +96,11 @@ class HubController:
         for i in range(len(self.quickPotions)):
             potion = self.quickPotions[i]
             potion.onFrameUpdate(deltaTime, screenshot)
-            if potion.isHighStatus():
+            if settings.isBalancingEnabaled and potion.isHighStatus():
                 bar = self.potionBars[i]
-                print(bar.name, 'will remove', settings.balancing_potion)
+                print(bar.name, 'remove', settings.balancing_potion)
                 bar.remove(settings.balancing_potion)
-        if settings.isAutoCombat:
+        if settings.isBalancingEnabaled and settings.isAutoCombat:
             self.balancing.onFrameUpdate(deltaTime, screenshot)
 
     def onFrameRender(self, screenshot):
@@ -132,7 +132,7 @@ class HubController:
                 else:
                     potion.onFrameRender(screenshot)
                 return
-        if actionCount == 0 and settings.isAutoCombat:
+        if settings.isBalancingEnabaled and actionCount == 0 and settings.isAutoCombat:
             self.balancing.onFrameRender(screenshot)
 
 

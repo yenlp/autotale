@@ -3,6 +3,7 @@ isAutoCombat = False
 isAutoLoot = False
 isAutoRotate = False
 isUseRightSkill = True
+isBalancingEnabaled = True
 combatDuration = 30
 percentSP = 0.3
 percentHP = 0.9
