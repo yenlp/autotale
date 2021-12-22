@@ -1,6 +1,6 @@
 set DIR=%CD%
 
-pushd %DIR%\v2
+pushd %DIR%\src
 
 python auto_play.py
 
